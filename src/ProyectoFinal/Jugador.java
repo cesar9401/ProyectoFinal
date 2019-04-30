@@ -8,12 +8,12 @@ public class Jugador{
     private int nivel;
 
     public Jugador() {
-        this.nombre = nombre;
+        this.nombre = "Player1";
         this.oro = 0;
         this.experiencia = 0;
         this.nivel = 1;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
