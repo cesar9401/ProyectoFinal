@@ -3,6 +3,8 @@ package ProyectoFinal;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Ventana extends JFrame{
 
@@ -17,16 +19,18 @@ public class Ventana extends JFrame{
     private JLabel experiencia;
     private JLabel experienciaJugador;
     Jugador jugador = new Jugador();
+    private JFrame inicio;
+    private JTextField nombreField;
 
     public Ventana(String nombreV){
         super(nombreV);
         this.setTitle(nombreV);
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(750, 750);
+        setSize(750, 650);
         setLocationRelativeTo(null);
-        setVisible(true);
 
+        InicializarInicio();
         InicializarPaneles();
         InicializarLabels();
 
@@ -37,6 +41,54 @@ public class Ventana extends JFrame{
         BtnNuevoJugador btnNuevoJugador = new BtnNuevoJugador(panelMenu, this);
         BtnGuardarCargar btnGuardarCargar = new BtnGuardarCargar(panelMenu, this);
 
+        //this.setVisible(true);
+
+    }
+
+    public void InicializarInicio(){
+        inicio = new JFrame("Bienenido a Dark Side");
+        inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        inicio.setSize(600, 250);
+        inicio.setLocationRelativeTo(null);
+
+
+        JPanel bienvenida = new JPanel();
+        bienvenida.setLayout(null);
+        bienvenida.setBackground(Color.LIGHT_GRAY);
+
+        JLabel mensaje = new JLabel();
+        mensaje.setFont(new Font("cooper black", 1, 14));
+        mensaje.setText("Bienvenido a Dark Side novato, ingresa tu nombre: ");
+        mensaje.setBounds(100, 20, 500, 40);
+
+        nombreField = new JTextField();
+        nombreField.setBounds(250, 80, 100, 30);
+
+        JButton aceptar = new JButton("¡Comenzar!");
+        aceptar.setFont(new Font("cooper black", 1, 14));
+        aceptar.setBounds(225, 130, 150, 40);
+
+        ActionListener comenzar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eventoComenzar();
+            }
+        };
+        aceptar.addActionListener(comenzar);
+
+
+        bienvenida.add(nombreField);
+        bienvenida.add(mensaje);
+        bienvenida.add(aceptar);
+        inicio.add(bienvenida);
+        inicio.setVisible(true);
+    }
+
+    public void eventoComenzar(){
+        jugador.setNombre(nombreField.getText());
+        nombreJugador.setText(""+jugador.getNombre());
+        inicio.setVisible(false);
+        this.setVisible(true);
     }
 
     public void InicializarPaneles(){
@@ -86,8 +138,6 @@ public class Ventana extends JFrame{
         panelInformacion.add(nivelJugador);
         panelInformacion.add(experiencia);
         panelInformacion.add(experienciaJugador);
-
-
 
     }
 }

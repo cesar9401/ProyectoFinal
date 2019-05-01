@@ -3,10 +3,14 @@ package ProyectoFinal;
 public class Vehiculos{
 
     protected String nombre;
-    protected int nivel;
-    protected int experiencia;
+    private int nivel;
+    private int experiencia;
     protected int PuntosVida;
     protected int PuntosPoder;
+    private boolean estado;
+    private int enemigosDestruidos;
+    private int cantDestruido;
+
 
     public Vehiculos(){
         this.nombre = "";
@@ -14,6 +18,9 @@ public class Vehiculos{
         this.experiencia = 0;
         this.PuntosPoder = 5;
         this.PuntosVida = 50;
+        this.estado = true; //true = activo, false = destruido
+        this.enemigosDestruidos = 0;
+        this.cantDestruido = 0;
     }
 
     public int getNivel() {
@@ -55,4 +62,29 @@ public class Vehiculos{
     public void setPuntosVida(int puntosVida) {
         PuntosVida = puntosVida;
     }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public int getCantDestruido() {
+        return cantDestruido;
+    }
+
+    public int getEnemigosDestruidos() {
+        return enemigosDestruidos;
+    }
+
+    public void setCantDestruido(int cantDestruido) {
+        this.cantDestruido = cantDestruido;
+    }
+
+    public void setEnemigosDestruidos(int enemigosDestruidos) {
+        this.enemigosDestruidos = enemigosDestruidos;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
+    }
+
 }
