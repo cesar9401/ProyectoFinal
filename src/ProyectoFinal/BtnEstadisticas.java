@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class BtnEstadisticas extends JButton {
-    Ventana ventana;
+   Ventana ventana;
 
     public BtnEstadisticas(JPanel panelMenu, Ventana ventana) {
         this.setText("Estadisticas");
