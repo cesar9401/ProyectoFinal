@@ -15,9 +15,16 @@ public class Ventana extends JFrame{
     private JLabel vehiculo1, vehiculo2, vehiculo3;
     private JRadioButton tanque1, avion1, tanque2, avion2, tanque3, avion3;
     private ButtonGroup vehiculos1, vehiculos2, vehiculos3;
-    Jugador jugador = new Jugador();
+    protected Jugador jugador = new Jugador();
 
-
+    protected BtnJugar4x4 btnJugar4x4;
+    protected BtnJugar6x4 btnJugar6x4;
+    protected BtnJugar8x9 btnJugar8x9;
+    protected BtnTienda btnTienda;
+    protected BtnVehiculos btnVehiculos;
+    protected BtnEstadisticas btnEstadisticas;
+    protected BtnNuevoJugador btnNuevoJugador;
+    protected BtnGuardarCargar btnGuardarCargar;
 
     private String seleccion1 = "tanque";
     private String seleccion2 = "tanque";
@@ -25,8 +32,8 @@ public class Ventana extends JFrame{
 
     private JFrame inicio;
     private JTextField nombreField;
+    ControlJuego control;
 
-    ControlJuego control = new ControlJuego(this);
 
     public Ventana(String nombreV){
         super(nombreV);
@@ -40,12 +47,15 @@ public class Ventana extends JFrame{
         inicializarPaneles();
         inicializarLabels();
 
-        BtnJugar btnJugar = new BtnJugar(panelMenu, this);
-        BtnTienda btnTienda = new BtnTienda(panelMenu, this);
-        BtnVehiculos btnVehiculos = new BtnVehiculos(panelMenu, this);
-        BtnEstadisticas btnEstadisticas = new BtnEstadisticas(panelMenu, this);
-        BtnNuevoJugador btnNuevoJugador = new BtnNuevoJugador(panelMenu, this);
-        BtnGuardarCargar btnGuardarCargar = new BtnGuardarCargar(panelMenu, this);
+        btnJugar4x4 = new BtnJugar4x4(panelMenu, this);
+        btnJugar6x4 = new BtnJugar6x4(panelMenu, this);
+        btnJugar8x9 = new BtnJugar8x9(panelMenu, this);
+        btnTienda = new BtnTienda(panelMenu, this);
+        btnVehiculos = new BtnVehiculos(panelMenu, this);
+        btnEstadisticas = new BtnEstadisticas(panelMenu, this);
+        btnNuevoJugador = new BtnNuevoJugador(panelMenu, this);
+        btnGuardarCargar = new BtnGuardarCargar(panelMenu, this);
+        control = new ControlJuego(this);
 
 
 
@@ -283,7 +293,7 @@ public class Ventana extends JFrame{
         panelInformacion.setBounds(0, 0, 750, 80);
 
         panelMenu.setBackground(Color.GRAY);
-        panelMenu.setBounds(0, 80, 750, 670);
+        panelMenu.setBounds(0, 80, 750, 570);
 
         this.getContentPane().add(BorderLayout.NORTH, panelInformacion);
         this.getContentPane().add(BorderLayout.CENTER, panelMenu);
@@ -301,15 +311,17 @@ public class Ventana extends JFrame{
         experiencia = new JLabel("            Experiencia: ");
         experienciaJugador = new JLabel(""+jugador.getExperiencia());
 
+
+
         panelInformacion.add(player);
         panelInformacion.add(nombreJugador);
         panelInformacion.add(oro);
         panelInformacion.add(oroJugador);
-
         panelInformacion.add(nivel);
         panelInformacion.add(nivelJugador);
         panelInformacion.add(experiencia);
         panelInformacion.add(experienciaJugador);
 
     }
+
 }

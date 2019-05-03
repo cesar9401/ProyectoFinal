@@ -6,5 +6,6 @@ public class Main{
         //write your code here
 
         Ventana ventana = new Ventana("Proyecto Final");
+
     }
 }

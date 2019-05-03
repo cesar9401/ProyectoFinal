@@ -1,18 +1,20 @@
 package ProyectoFinal;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class Casilla extends JButton{
     private Vehiculos vehiculo;
     private int vida;
-    private boolean destruible;
-    protected BtnJugar btnJugar;
+    private boolean montaña;
+    private boolean agua;
+    protected int posX;
+    protected int posY;
+
 
     public Casilla(){
-
         vehiculo = null;
-        destruible = false;
+        montaña = false;
+        agua = false;
         vida = 0;
     }
 
@@ -39,11 +41,35 @@ public class Casilla extends JButton{
         return vida;
     }
 
-    public boolean isDestruible() {
-        return destruible;
+    public boolean isAgua() {
+        return agua;
     }
 
-    public void setDestruible(boolean destruible) {
-        this.destruible = destruible;
+    public boolean isMontaña() {
+        return montaña;
+    }
+
+    public void setAgua(boolean agua) {
+        this.agua = agua;
+    }
+
+    public void setMontaña(boolean montaña) {
+        this.montaña = montaña;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
     }
 }
