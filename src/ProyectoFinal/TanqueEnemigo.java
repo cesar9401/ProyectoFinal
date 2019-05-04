@@ -9,5 +9,6 @@ public class TanqueEnemigo extends Tanque{
         this.punteria = 100;
         this.PuntosPoder = 10;
         this.PuntosVida = 100;
+        this.tanque = true;
     }
 }

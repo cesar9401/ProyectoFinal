@@ -10,6 +10,7 @@ public class Vehiculos{
     private boolean estado;
     private int enemigosDestruidos;
     private int cantDestruido;
+    protected boolean tanque;
 
 
     public Vehiculos(){
@@ -21,6 +22,7 @@ public class Vehiculos{
         this.estado = true; //true = activo, false = destruido
         this.enemigosDestruidos = 0;
         this.cantDestruido = 0;
+        this.tanque = false;
     }
 
     public int getNivel() {
@@ -87,4 +89,11 @@ public class Vehiculos{
         this.estado = estado;
     }
 
+    public void setTanque(boolean tanque) {
+        this.tanque = tanque;
+    }
+
+    public boolean isTanque() {
+        return tanque;
+    }
 }

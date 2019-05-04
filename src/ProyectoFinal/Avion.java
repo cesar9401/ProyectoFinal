@@ -12,6 +12,7 @@ public class Avion extends Vehiculos{
         this.defensa = 3;
         this.punteria = 70;
         this.velocidad = 1;
+        this.tanque = false;
     }
 
     public void setAtaque(int ataque) {

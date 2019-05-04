@@ -10,6 +10,7 @@ public class Tanque extends Vehiculos{
         this.ataque = 10;
         this.defensa = 6;
         this.punteria = 60;
+        this.tanque = true;
     }
 
     public void setAtaque(int ataque) {
@@ -34,5 +35,13 @@ public class Tanque extends Vehiculos{
 
     public int getPunteria() {
         return punteria;
+    }
+
+    public boolean isTanque() {
+        return tanque;
+    }
+
+    public void setTanque(boolean tanque) {
+        this.tanque = tanque;
     }
 }

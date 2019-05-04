@@ -48,8 +48,15 @@ public class BtnJugar6x4 extends JButton{
         bordeTablero.setTitleJustification(TitledBorder.TOP);
         tablero6x4.setBorder(bordeTablero);
 
+        ventana.control.getTablero(6, 4,185, 95, 6, ventana.control.Tablero2);
+        for(int i=0; i<6; i++){
+            for(int j=0; j<4; j++){
+                tablero6x4.add(ventana.control.Tablero2[i][j]);
+            }
+        }
+
         //ventana.control.getTablero1();
-        ventana.control.getTablero2();
+        //ventana.control.getTablero2();
         //ventana.control.getTablero3();
 
         ventanaJugar2.add(tablero6x4);

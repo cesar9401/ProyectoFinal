@@ -10,5 +10,6 @@ public class AvionEnemigo extends Avion{
         this.velocidad = 2;
         this.PuntosPoder = 10;
         this.PuntosVida = 100;
+        this.tanque = false;
     }
 }

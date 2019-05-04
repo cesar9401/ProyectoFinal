@@ -12,7 +12,6 @@ public class BtnJugar8x9 extends JButton{
     protected JFrame ventanaJugar3 = new JFrame("Dark Side - Playing");
     protected JPanel tablero8x9;
 
-
     public BtnJugar8x9(JPanel panelMenu, Ventana ventana){
         this.setText("Jugar 8x9");
         this.setFont(new Font("cooper black", 1, 18));
@@ -48,13 +47,23 @@ public class BtnJugar8x9 extends JButton{
         bordeTablero.setTitleJustification(TitledBorder.TOP);
         tablero8x9.setBorder(bordeTablero);
 
+        ventana.control.getTablero(8, 9,71, 83, 18, ventana.control.Tablero3);
+        for(int i=0; i<8; i++){
+            for(int j=0; j<9; j++){
+                tablero8x9.add(ventana.control.Tablero3[i][j]);
+            }
+        }
+
         //ventana.control.getTablero1();
         //ventana.control.getTablero2();
-        ventana.control.getTablero3();
+        //ventana.control.getTablero3();
 
         ventanaJugar3.add(tablero8x9);
         ventana.setVisible(false);
         ventanaJugar3.setVisible(true);
+
+
     }
 
 }
+

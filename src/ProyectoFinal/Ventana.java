@@ -270,7 +270,6 @@ public class Ventana extends JFrame{
         }else{
             control.crearAvion();
         }
-
     }
 
     public void inicializarPaneles(){
