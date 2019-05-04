@@ -1,6 +1,8 @@
 package ProyectoFinal;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Casilla extends JButton{
     private Vehiculos vehiculo;
@@ -16,6 +18,16 @@ public class Casilla extends JButton{
         montaña = false;
         agua = false;
         vida = 0;
+        ActionListener oyente = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(!isEmpty()){
+                    System.out.println("hola");
+                }
+
+            }
+        };
+        this.addActionListener(oyente);
     }
 
     public boolean isEmpty()

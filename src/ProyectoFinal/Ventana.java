@@ -43,7 +43,7 @@ public class Ventana extends JFrame{
         setSize(750, 650);
         setLocationRelativeTo(null);
 
-        inicializarInicio();
+        //inicializarInicio();
         inicializarPaneles();
         inicializarLabels();
 
@@ -60,7 +60,7 @@ public class Ventana extends JFrame{
 
 
         //this.setVisible(true);
-
+        eventoComenzar();
     }
 
     public void inicializarInicio(){
@@ -250,7 +250,7 @@ public class Ventana extends JFrame{
     }
 
     public void eventoComenzar(){
-        inicio.setVisible(false);
+        //inicio.setVisible(false);
         this.setVisible(true);
 
         if(seleccion1.equals("tanque")){

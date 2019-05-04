@@ -1,7 +1,10 @@
 package ProyectoFinal;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ControlJuego{
 
@@ -15,12 +18,14 @@ public class ControlJuego{
     Casilla[][] Tablero1 = new Casilla[4][4];
     Casilla[][] Tablero2 = new Casilla[6][4];
     Casilla[][] Tablero3 = new Casilla[8][9];
+    JPanel informacion = new JPanel();
+    JButton rendirse= new JButton("Rendirse");;
 
     ImageIcon montaña = new ImageIcon("montaña.jpg");
     ImageIcon agua = new ImageIcon("agua.jpg");
-    ImageIcon asfalto = new ImageIcon("asfalto.jpg");
+    ImageIcon asfalto = new ImageIcon("tierra.jpg");
     ImageIcon tanque = new ImageIcon("tanque.jpg");
-    ImageIcon avion = new ImageIcon("avion.gif");
+    ImageIcon avion = new ImageIcon("halconMilenario.jpg");
     ImageIcon tanqueEnemigo = new ImageIcon("tanqueEnemigo.JPG");
     ImageIcon avionEnemigo = new ImageIcon("avionEnemigo.jpg");
 
@@ -87,8 +92,6 @@ public class ControlJuego{
             }
         }while (contador != obstaculos);
 
-
-
         contador = 0;
         int m=0;
         int n=0;
@@ -132,6 +135,49 @@ public class ControlJuego{
                 }
             }
         }
+    }
+
+    public void panelsYBotonesJugar(int x, int y,JPanel tablero, JPanel vsPC, JPanel vsPlayer, JFrame ventanaJugar, Casilla[][] casillas){
+
+        informacion.setBackground(Color.LIGHT_GRAY);
+        informacion.setBounds(125, 0, 750, 80);
+        ventanaJugar.add(informacion);
+
+        TitledBorder bordeInformacion = new TitledBorder("Informacion");
+        bordeInformacion.setTitleJustification(TitledBorder.CENTER);
+        bordeInformacion.setTitleJustification(TitledBorder.TOP);
+        informacion.setBorder(bordeInformacion);
+
+        vsPC = new JPanel();
+        vsPC.setLayout(null);
+        vsPC.setBackground(Color.GRAY);
+        vsPC.setBounds(875, 0, 125, 680);
+        ventanaJugar.add(vsPC);
+
+        vsPlayer = new JPanel();
+        vsPlayer.setLayout(null);
+        vsPlayer.setBackground(Color.GRAY);
+        vsPlayer.setBounds(0, 0, 125, 680);
+        ventanaJugar.add(vsPlayer);
+
+        rendirse.setBounds(10, 100, 105, 30);
+
+        ActionListener oyenteRedirse = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for(int i=0; i<x; i++){
+                    for(int j=0; j<y; j++){
+                        tablero.remove(casillas[i][j]);
+                    }
+                }
+                ventanaJugar.setVisible(false);
+                ventanaJugar.remove(tablero);
+                ventana.setVisible(true);
+            }
+        };
+        rendirse.addActionListener(oyenteRedirse);
+        vsPC.add(rendirse);
 
     }
 
