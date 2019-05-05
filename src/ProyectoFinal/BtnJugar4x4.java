@@ -10,7 +10,7 @@ public class BtnJugar4x4 extends JButton{
 
     protected Ventana ventana;
     protected JFrame ventanaJugar1 = new JFrame("Dark Side - Playing");
-    protected JPanel tablero4x4, panelVsPc1, panelVs1;
+    protected JPanel tablero4x4, panelVs1;
     //JButton rendirse = new JButton("Rendirse");
 
 
@@ -48,9 +48,9 @@ public class BtnJugar4x4 extends JButton{
         bordeTablero.setTitleJustification(TitledBorder.TOP);
         tablero4x4.setBorder(bordeTablero);
 
-        ventana.control.panelsYBotonesJugar(4, 4, tablero4x4, panelVsPc1, panelVs1, ventanaJugar1, ventana.control.Tablero1);
-
+        ventana.control.panelsYBotonesJugar(4, 4, tablero4x4, panelVs1, ventanaJugar1, ventana.control.Tablero1);
         ventana.control.getTablero(4, 4,140, 185, 4, ventana.control.Tablero1);
+
         for(int i=0; i<4; i++){
             for(int j=0; j<4; j++){
                 tablero4x4.add(ventana.control.Tablero1[i][j]);
@@ -60,6 +60,8 @@ public class BtnJugar4x4 extends JButton{
         ventanaJugar1.add(tablero4x4);
         ventana.setVisible(false);
         ventanaJugar1.setVisible(true);
+
+
     }
 
 

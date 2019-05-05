@@ -14,6 +14,7 @@ public class Ventana extends JFrame{
     private JButton confirmar, comenzar;
     private JLabel vehiculo1, vehiculo2, vehiculo3;
     private JRadioButton tanque1, avion1, tanque2, avion2, tanque3, avion3;
+    private JTextField nombreV1, nombreV2, nombreV3;
     private ButtonGroup vehiculos1, vehiculos2, vehiculos3;
     protected Jugador jugador = new Jugador();
 
@@ -26,9 +27,9 @@ public class Ventana extends JFrame{
     protected BtnNuevoJugador btnNuevoJugador;
     protected BtnGuardarCargar btnGuardarCargar;
 
-    private String seleccion1 = "tanque";
-    private String seleccion2 = "tanque";
-    private String seleccion3 = "tanque";
+    protected String seleccion1 = "tanque";
+    protected String seleccion2 = "tanque";
+    protected String seleccion3 = "tanque";
 
     private JFrame inicio;
     private JTextField nombreField;
@@ -43,7 +44,7 @@ public class Ventana extends JFrame{
         setSize(750, 650);
         setLocationRelativeTo(null);
 
-        //inicializarInicio();
+        inicializarInicio();
         inicializarPaneles();
         inicializarLabels();
 
@@ -60,11 +61,11 @@ public class Ventana extends JFrame{
 
 
         //this.setVisible(true);
-        eventoComenzar();
+        //eventoComenzar();
     }
 
     public void inicializarInicio(){
-        inicio = new JFrame("Dark Side");
+        inicio = new JFrame("Dark Side - Welcome");
         inicio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         inicio.setSize(600, 440);
         inicio.setLocationRelativeTo(null);
@@ -99,23 +100,22 @@ public class Ventana extends JFrame{
         informacionVehiculos = new JLabel();
         informacionVehiculos.setFont(new Font("cooper black", 1, 12));
         informacionVehiculos.setText("Para jugar necesitas de 3 vehiculos, puedes escoger entre aviones y tanques");
-        informacionVehiculos.setBounds(10, 120, 580, 40);
+        informacionVehiculos.setBounds(10, 120, 580, 30);
         informacionVehiculos.setEnabled(false);
 
         //Label para vehiculo1 y radiobotones
         vehiculo1 = new JLabel("Vehiculo 1");
         vehiculo1.setFont(new Font("cooper black", 1, 12));
-        vehiculo1.setBounds(100, 160, 80, 40);
+        vehiculo1.setBounds(100, 150, 80, 30);
         vehiculo1.setEnabled(false);
 
         tanque1 = new JRadioButton("Tanque", true);
-        tanque1.setBounds(100, 200, 80, 40);
+        tanque1.setBounds(100, 190, 80, 30);
         tanque1.setEnabled(false);
 
         avion1 = new JRadioButton("Avion", false);
-        avion1.setBounds(100, 260, 80, 40);
+        avion1.setBounds(100, 230, 80, 30);
         avion1.setEnabled(false);
-
         vehiculos1 = new ButtonGroup();
         vehiculos1.add(tanque1);
         vehiculos1.add(avion1);
@@ -135,19 +135,23 @@ public class Ventana extends JFrame{
             }
         };
         avion1.addActionListener(paraAvion1);
+        nombreV1 = new JTextField("Nombre Vehiculo 1");
+        nombreV1.setBounds(80, 270, 120, 30);
+        nombreV1.setEnabled(false);
+        bienvenida.add(nombreV1);
 
         //Label para vehiculo2 y radiobotones
         vehiculo2 = new JLabel("Vehiculo 2");
         vehiculo2.setFont(new Font("cooper black", 1, 12));
-        vehiculo2.setBounds(260, 160, 80, 40);
+        vehiculo2.setBounds(260, 150, 80, 30);
         vehiculo2.setEnabled(false);
 
         tanque2 = new JRadioButton("Tanque", true);
-        tanque2.setBounds(260, 200, 80, 40);
+        tanque2.setBounds(260, 190, 80, 30);
         tanque2.setEnabled(false);
 
         avion2 = new JRadioButton("Avion", false);
-        avion2.setBounds(260, 260, 80, 40);
+        avion2.setBounds(260, 230, 80, 30);
         avion2.setEnabled(false);
         vehiculos2 = new ButtonGroup();
         vehiculos2.add(tanque2);
@@ -168,19 +172,23 @@ public class Ventana extends JFrame{
             }
         };
         avion2.addActionListener(paraAvion2);
+        nombreV2 = new JTextField("Nombre Vehiculo 2");
+        nombreV2.setBounds(240, 270, 120, 30);
+        nombreV2.setEnabled(false);
+        bienvenida.add(nombreV2);
 
         //Label para vehiculo3 y radiobotones
         vehiculo3 = new JLabel("Vehiculo 3");
         vehiculo3.setFont(new Font("cooper black", 1, 12));
-        vehiculo3.setBounds(420, 160, 80, 40);
+        vehiculo3.setBounds(420, 150, 80, 30);
         vehiculo3.setEnabled(false);
 
         tanque3 = new JRadioButton("Tanque", true);
-        tanque3.setBounds(420, 200, 80, 40);
+        tanque3.setBounds(420, 190, 80, 30);
         tanque3.setEnabled(false);
 
         avion3 = new JRadioButton("Avion", false);
-        avion3.setBounds(420, 260, 80, 40);
+        avion3.setBounds(420, 230, 80, 30);
         avion3.setEnabled(false);
         vehiculos3 = new ButtonGroup();
         vehiculos3.add(tanque3);
@@ -201,6 +209,10 @@ public class Ventana extends JFrame{
             }
         };
         avion3.addActionListener(paraAvion3);
+        nombreV3 = new JTextField("Nombre Vehiculo 3");
+        nombreV3.setBounds(400, 270, 120, 30);
+        nombreV3.setEnabled(false);
+        bienvenida.add(nombreV3);
 
         //Boton para iniciar el Menu principal
         comenzar = new JButton("¡Comenzar!");
@@ -240,35 +252,38 @@ public class Ventana extends JFrame{
         vehiculo1.setEnabled(true);
         tanque1.setEnabled(true);
         avion1.setEnabled(true);
+        nombreV1.setEnabled(true);
         vehiculo2.setEnabled(true);
         tanque2.setEnabled(true);
         avion2.setEnabled(true);
+        nombreV2.setEnabled(true);
         vehiculo3.setEnabled(true);
         tanque3.setEnabled(true);
         avion3.setEnabled(true);
+        nombreV3.setEnabled(true);
         comenzar.setEnabled(true);
     }
 
     public void eventoComenzar(){
-        //inicio.setVisible(false);
+        inicio.setVisible(false);
         this.setVisible(true);
 
         if(seleccion1.equals("tanque")){
-            control.crearTanque();
+            control.crearTanque(nombreV1.getText());
         }else{
-            control.crearAvion();
+            control.crearAvion(nombreV1.getText());
         }
 
         if(seleccion2.equals("tanque")){
-            control.crearTanque();
+            control.crearTanque(nombreV2.getText());
         }else{
-            control.crearAvion();
+            control.crearAvion(nombreV2.getText());
         }
 
         if(seleccion3.equals("tanque")){
-            control.crearTanque();
+            control.crearTanque(nombreV3.getText());
         }else{
-            control.crearAvion();
+            control.crearAvion(nombreV3.getText());
         }
     }
 

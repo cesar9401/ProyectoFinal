@@ -5,29 +5,45 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Casilla extends JButton{
+
     private Vehiculos vehiculo;
     private int vida;
     private boolean montaña;
     private boolean agua;
     protected int posX;
     protected int posY;
+    Casilla[][] tablero;
+
+    ImageIcon tierra = new ImageIcon("tierra.jpg");
+    ImageIcon tanque = new ImageIcon("tanque.jpg");
+    ImageIcon avion = new ImageIcon("avion.gif");
+    ImageIcon aguaIcon = new ImageIcon("agua.jpg");
+    Ventana ventana;
 
 
-    public Casilla(){
+    public Casilla(int posX, int posY, Casilla[][] tablero){
         vehiculo = null;
         montaña = false;
         agua = false;
         vida = 0;
-        ActionListener oyente = new ActionListener() {
+        this.posX = posX;
+        this.posY = posY;
+        this.tablero = tablero;
+
+        ActionListener oyenteCasilla = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(!isEmpty()){
-                    System.out.println("hola");
-                }
+                System.out.println("posX: "+posX);
+                System.out.println("posY: "+posY);
 
+                if(!isEmpty()){
+                    System.out.println(vehiculo.getNombre());
+                    System.out.println(vehiculo.isTanque());
+                }
             }
         };
-        this.addActionListener(oyente);
+        this.addActionListener(oyenteCasilla);
+
     }
 
     public boolean isEmpty()
