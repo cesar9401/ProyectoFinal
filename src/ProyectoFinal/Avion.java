@@ -8,17 +8,19 @@ public class Avion extends Vehiculos{
     protected int velocidad;
 
     public Avion(){
-        this.ataque = 7;
+        this.ataque = 22;
         this.defensa = 3;
-        this.punteria = 70;
+        this.punteria = 80;
         this.velocidad = 1;
         this.tanque = false;
     }
 
+    @Override
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }
 
+    @Override
     public int getAtaque() {
         return ataque;
     }

@@ -11,6 +11,7 @@ public class Vehiculos{
     private int enemigosDestruidos;
     private int cantDestruido;
     protected boolean tanque;
+    protected int ataque;
 
 
     public Vehiculos(){
@@ -23,6 +24,8 @@ public class Vehiculos{
         this.enemigosDestruidos = 0;
         this.cantDestruido = 0;
         this.tanque = false;
+
+        this.ataque = ataque;
     }
 
     public int getNivel() {
@@ -95,5 +98,13 @@ public class Vehiculos{
 
     public boolean isTanque() {
         return tanque;
+    }
+
+    public int getAtaque() {
+        return ataque;
+    }
+
+    public void setAtaque(int ataque) {
+        this.ataque = ataque;
     }
 }

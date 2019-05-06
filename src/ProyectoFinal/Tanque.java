@@ -7,16 +7,18 @@ public class Tanque extends Vehiculos{
     protected int punteria;
 
     public Tanque(){
-        this.ataque = 10;
-        this.defensa = 6;
-        this.punteria = 60;
+        this.ataque = 25;
+        this.defensa = 5;
+        this.punteria = 75;
         this.tanque = true;
     }
 
+    @Override
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }
 
+    @Override
     public int getAtaque() {
         return ataque;
     }

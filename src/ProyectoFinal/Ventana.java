@@ -135,7 +135,7 @@ public class Ventana extends JFrame{
             }
         };
         avion1.addActionListener(paraAvion1);
-        nombreV1 = new JTextField("Nombre Vehiculo 1");
+        nombreV1 = new JTextField("Vehiculo 1");
         nombreV1.setBounds(80, 270, 120, 30);
         nombreV1.setEnabled(false);
         bienvenida.add(nombreV1);
@@ -172,7 +172,7 @@ public class Ventana extends JFrame{
             }
         };
         avion2.addActionListener(paraAvion2);
-        nombreV2 = new JTextField("Nombre Vehiculo 2");
+        nombreV2 = new JTextField("Vehiculo 2");
         nombreV2.setBounds(240, 270, 120, 30);
         nombreV2.setEnabled(false);
         bienvenida.add(nombreV2);
@@ -209,7 +209,7 @@ public class Ventana extends JFrame{
             }
         };
         avion3.addActionListener(paraAvion3);
-        nombreV3 = new JTextField("Nombre Vehiculo 3");
+        nombreV3 = new JTextField("Vehiculo 3");
         nombreV3.setBounds(400, 270, 120, 30);
         nombreV3.setEnabled(false);
         bienvenida.add(nombreV3);

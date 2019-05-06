@@ -30,19 +30,21 @@ public class Casilla extends JButton{
         this.posY = posY;
         this.tablero = tablero;
 
-        ActionListener oyenteCasilla = new ActionListener() {
+        /*ActionListener oyenteCasilla = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("posX: "+posX);
-                System.out.println("posY: "+posY);
+                System.out.println("posX: "+posX+" posY: "+posY);
 
                 if(!isEmpty()){
-                    System.out.println(vehiculo.getNombre());
-                    System.out.println(vehiculo.isTanque());
+                    System.out.println("nombre: "+vehiculo.getNombre());
+                    System.out.println("vida: "+vehiculo.getPuntosVida());
+                    ventana.control.posX.setText(""+posX);
+                    ventana.control.posY.setText(""+posY);
                 }
             }
         };
         this.addActionListener(oyenteCasilla);
+        */
 
     }
 
