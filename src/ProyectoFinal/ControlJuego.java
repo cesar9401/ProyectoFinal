@@ -29,9 +29,9 @@ public class ControlJuego{
     JLabel movY = new JLabel("PosY: ");
     JButton mover = new JButton("Mover");
     JButton disparar = new JButton("Disparar");
-    JRadioButton vehiculo1 = new JRadioButton("", true);
-    JRadioButton vehiculo2 = new JRadioButton("", false);
-    JRadioButton vehiculo3 = new JRadioButton("", false);
+    JRadioButton vehiculo1;
+    JRadioButton vehiculo2;
+    JRadioButton vehiculo3;
 
     ImageIcon montaña = new ImageIcon("montaña.jpg");
     ImageIcon agua = new ImageIcon("agua.jpg");
@@ -44,10 +44,10 @@ public class ControlJuego{
     protected int rdm;
     protected int rdmX;
     protected int rdmY;
-    protected int posV = 0;
+    protected int posV;
     private int contadorVehiculos = 0;
-    protected int X = 0;
-    protected int Y = 0;
+    protected int X;
+    protected int Y;
 
     public ControlJuego(Ventana ventana){
         this.ventana = ventana;
@@ -178,8 +178,9 @@ public class ControlJuego{
             rdmX = (int)(Math.random()*x);
             rdmY = (int)(Math.random()*y);
             if(!tablero[rdmX][rdmY].isMontaña() && !tablero[rdmX][rdmY].isAgua() && tablero[rdmX][rdmY].isEmpty() && contador==0){
-                rdm = (int)(Math.random()*3);
-                tablero[rdmX][rdmY].setVehiculo(misVehiculos[posV]);
+                //rdm = (int)(Math.random()*3);
+                posV=0;
+                tablero[rdmX][rdmY].setVehiculo(misVehiculos[0]);
                 X = rdmX;
                 Y = rdmY;
                 System.out.println(tablero[rdmX][rdmY].getVehiculo().isTanque());
@@ -261,13 +262,13 @@ public class ControlJuego{
         cambiarV.setBounds(5, 300, 115, 30);
         vsPC.add(cambiarV);
 
-        vehiculo1.setText(misVehiculos[0].getNombre());
+        vehiculo1 = new JRadioButton(misVehiculos[0].getNombre(), true);
         vehiculo1.setBounds(10, 340, 100, 30);
         vsPC.add(vehiculo1);
-        vehiculo2.setText(misVehiculos[1].getNombre());
+        vehiculo2 = new JRadioButton(misVehiculos[1].getNombre(), false);
         vehiculo2.setBounds(10, 380, 100, 30);
         vsPC.add(vehiculo2);
-        vehiculo3.setText(misVehiculos[2].getNombre());
+        vehiculo3 = new JRadioButton(misVehiculos[2].getNombre(), false);
         vehiculo3.setBounds(10, 420, 100, 30);
         vsPC.add(vehiculo3);
 
@@ -340,6 +341,7 @@ public class ControlJuego{
                     }
                 }
 
+                vsPC.removeAll();
                 tablero.removeAll();
                 ventanaJugar.remove(tablero);
                 ventanaJugar.remove(vsPC);
