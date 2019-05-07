@@ -44,7 +44,10 @@ public class ControlJuego{
     protected int rdm;
     protected int rdmX;
     protected int rdmY;
-    protected int posV;
+    protected int posV0=0;
+    protected int posV1=1;
+    protected int posV2=2;
+    protected int posV = posV0;
     private int contadorVehiculos = 0;
     protected int X;
     protected int Y;
@@ -119,7 +122,7 @@ public class ControlJuego{
                     @Override
                     public void mouseEntered(MouseEvent e) {
 
-                        informacionArea.setText("posX: "+casilla.getPosX()+" posY: "+casilla.getPosX());
+                        informacionArea.setText("posX: "+casilla.getPosX()+" posY: "+casilla.getPosY());
                         if(!casilla.isEmpty()){
                             informacionArea.append("\nNombre vehiculo: "+casilla.getVehiculo().getNombre());
                             informacionArea.append("\nPuntos de vida: "+casilla.getVehiculo().getPuntosVida());
@@ -179,12 +182,9 @@ public class ControlJuego{
             rdmY = (int)(Math.random()*y);
             if(!tablero[rdmX][rdmY].isMontaña() && !tablero[rdmX][rdmY].isAgua() && tablero[rdmX][rdmY].isEmpty() && contador==0){
                 //rdm = (int)(Math.random()*3);
-                posV=0;
-                tablero[rdmX][rdmY].setVehiculo(misVehiculos[0]);
+                tablero[rdmX][rdmY].setVehiculo(misVehiculos[posV]);
                 X = rdmX;
                 Y = rdmY;
-                System.out.println(tablero[rdmX][rdmY].getVehiculo().isTanque());
-
 
                 if(tablero[rdmX][rdmY].getVehiculo().isTanque()){
                     tablero[rdmX][rdmY].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(largo, ancho, Image.SCALE_SMOOTH)));
@@ -210,15 +210,14 @@ public class ControlJuego{
             }
         }while(contador!=4);
 
+        int k=0;
         for(int i=0; i<x; i++){
             for(int j=0; j<y; j++){
                 if(!tablero[i][j].isMontaña() && !tablero[i][j].isAgua() && tablero[i][j].isEmpty()){
                     tablero[i][j].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(largo, ancho, Image.SCALE_SMOOTH)));
                 }
-
             }
         }
-
     }
 
     public void panelsYBotonesJugar(int x, int y, JPanel tablero, JPanel vsPlayer, JFrame ventanaJugar, Casilla[][] casillas){
@@ -250,7 +249,7 @@ public class ControlJuego{
         vsPlayer.setBounds(0, 0, 125, 680);
         ventanaJugar.add(vsPlayer);
 
-        rendirse.setBounds(10, 100, 105, 30);
+        rendirse.setBounds(10, 460, 105, 30);
         posX.setBounds(60, 140, 40, 30);
         movX.setBounds(10, 140, 50, 30);
         posY.setBounds(60, 180, 40, 30);
@@ -281,8 +280,8 @@ public class ControlJuego{
             @Override
             public void actionPerformed(ActionEvent e) {
                 casillas[X][Y].setVehiculo(null);
-                casillas[X][Y].setVehiculo(misVehiculos[0]);
-                posV=0;
+                posV = posV0;
+                casillas[X][Y].setVehiculo(misVehiculos[posV]);
                 if(casillas[X][Y].getVehiculo().isTanque()){
                     casillas[X][Y].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                 }else{
@@ -296,8 +295,8 @@ public class ControlJuego{
             @Override
             public void actionPerformed(ActionEvent e) {
                 casillas[X][Y].setVehiculo(null);
-                casillas[X][Y].setVehiculo(misVehiculos[1]);
-                posV=1;
+                posV = posV1;
+                casillas[X][Y].setVehiculo(misVehiculos[posV]);
                 if(casillas[X][Y].getVehiculo().isTanque()){
                     casillas[X][Y].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                 }else{
@@ -311,8 +310,8 @@ public class ControlJuego{
             @Override
             public void actionPerformed(ActionEvent e) {
                 casillas[X][Y].setVehiculo(null);
-                casillas[X][Y].setVehiculo(misVehiculos[2]);
-                posV=2;
+                posV = posV2;
+                casillas[X][Y].setVehiculo(misVehiculos[posV]);
                 if(casillas[X][Y].getVehiculo().isTanque()){
                     casillas[X][Y].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                 }else{
@@ -397,7 +396,6 @@ public class ControlJuego{
                             informacionArea.append("\nEl obstaculo con posicion ");
                             informacionArea.append("posX: "+casillas[fila][columna].getPosX()+" posY: "+casillas[fila][columna].getPosY());
                             informacionArea.append(" fue destruido");
-
                         }
                     }
 
@@ -413,7 +411,9 @@ public class ControlJuego{
                             casillas[fila][columna].setVehiculo(null);
                             casillas[fila][columna].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[fila][columna].getWidth(), casillas[fila][columna].getHeight(), Image.SCALE_SMOOTH)));
 
+                            misVehiculos[posV].setEnemigosDestruidos(misVehiculos[posV].getEnemigosDestruidos()+1);
                             informacionArea.append("\nEl vehiculo fue destruido");
+
                         }
 
                     }
@@ -449,13 +449,13 @@ public class ControlJuego{
                         }
 
                         casillas[fila][columna].setVehiculo(misVehiculos[posV]);
-                        casillas[X][Y].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                         casillas[X][Y].setVehiculo(null);
+                        casillas[X][Y].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                         X = fila;
                         Y = columna;
 
                     }else{
-                        informacionArea.setText("El movimiento no es posible porque la casilla es un obstaculo");
+                        informacionArea.setText("El movimiento no es posible porque la casilla esta ocupada");
                     }
 
                 }else{
@@ -475,8 +475,150 @@ public class ControlJuego{
         }
     }
 
-    public void movimientoPC(){
+    public void movimientoPC(int x, int y, Casilla[][] casillas){
 
+        int k;
+        int contador = -1;
+        k = (int)(Math.random()*3);
 
+        //Coordenadas del vehiculo que va a disparar
+        for(int i=0; i<x; i++){
+            for(int j=0; j<y; j++){
+                if(!casillas[i][j].isEmpty() && casillas[i][j].getVehiculo().getNombre().endsWith("Enemigo")){
+                    rdmX = i;
+                    rdmY = j;
+                    ++contador;
+                    if(contador == k){
+                        break;
+                    }
+                }
+            }
+        }
+
+        int a;
+        int b;
+        //Coordenadas hacia donde va a dispara
+        do{
+            a = (int)(Math.random()*x);
+            b = (int)(Math.random()*y);
+        }while(rdmX!=a && rdmY!=b);
+
+        informacionArea.setText("El vehiculo: "+casillas[rdmX][rdmY].getVehiculo().getNombre()+" con posicion PosX: "+rdmY+" PosY: "+rdmX);
+        informacionArea.append(", disparo a la casilla x="+b+" y="+a);
+
+        if(casillas[a][b].isEmpty() && !(casillas[a][b].isAgua() || casillas[a][b].isMontaña())){
+            informacionArea.append("\nCasilla vacia.");
+        }
+
+        if(casillas[a][b].isAgua()){
+            casillas[a][b].setVida(casillas[a][b].getVida() - casillas[rdmX][rdmY].getVehiculo().getAtaque());
+            informacionArea.append("\ndonde se encuentra un lago");
+            informacionArea.append(", vida actual del lago: "+casillas[a][b].getVida());
+            if(casillas[a][b].getVida()<=0){
+                informacionArea.append(", lago destruido.");
+                casillas[a][b].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                casillas[a][b].setAgua(false);
+            }
+        }
+
+        if(casillas[a][b].isMontaña()){
+            casillas[a][b].setVida(casillas[a][b].getVida() - casillas[rdmX][rdmY].getVehiculo().getAtaque());
+            informacionArea.append("\ndonde se encuentra una montaña");
+            informacionArea.append(", vida actual de la montaña: "+casillas[a][b].getVida());
+            if(casillas[a][b].getVida()<=0){
+                informacionArea.append(", montaña destruida.");
+                casillas[a][b].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                casillas[a][b].setMontaña(false);
+            }
+        }
+
+        if(!casillas[a][b].isEmpty() && !casillas[a][b].getVehiculo().getNombre().endsWith("Enemigo")){
+            casillas[a][b].getVehiculo().setPuntosVida(casillas[a][b].getVehiculo().getPuntosVida() - casillas[rdmX][rdmY].getVehiculo().getPuntosVida());
+            misVehiculos[posV].setPuntosVida(misVehiculos[posV].getPuntosVida() - casillas[rdmX][rdmY].getVehiculo().getPuntosVida());
+            informacionArea.append("\ndonde se encuentra el vehiculo: "+casillas[a][b].getVehiculo().getNombre());
+            informacionArea.append("\nVida actual del vehiculo: "+casillas[a][b].getVehiculo().getPuntosVida());
+            if(casillas[a][b].getVehiculo().getPuntosVida() <= 0){
+                misVehiculos[posV].setPuntosVida(0);
+                misVehiculos[posV].setCantDestruido(misVehiculos[posV].getCantDestruido() + 1);
+                misVehiculos[posV].setEstado(false);
+                informacionArea.append("\nVida actual del vehiculo: "+casillas[a][b].getVehiculo().getPuntosVida());
+                informacionArea.append(", vehiculo destruido.");
+                casillas[a][b].setVehiculo(null);
+
+                if(posV==posV0){
+                    vehiculo1.setEnabled(false);
+                    if(misVehiculos[posV1].isEstado()){
+                        posV=posV1;
+                        casillas[a][b].setVehiculo(misVehiculos[posV]);
+                        if(casillas[a][b].getVehiculo().isTanque()){
+                            casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }else{
+                            casillas[a][b].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }
+                    }
+                    if(misVehiculos[posV2].isEstado()){
+                        posV=posV2;
+                        casillas[a][b].setVehiculo(misVehiculos[posV]);
+                        if(casillas[a][b].getVehiculo().isTanque()){
+                            casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }else{
+                            casillas[a][b].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }
+                    }
+
+                }
+
+                if(posV==posV1){
+                    vehiculo2.setEnabled(false);
+                    if(misVehiculos[posV0].isEstado()){
+                        posV=posV0;
+                        casillas[a][b].setVehiculo(misVehiculos[posV]);
+                        if(casillas[a][b].getVehiculo().isTanque()){
+                            casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }else{
+                            casillas[a][b].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }
+                    }
+                    if(misVehiculos[posV2].isEstado()){
+                        posV=posV2;
+                        casillas[a][b].setVehiculo(misVehiculos[posV]);
+                        if(casillas[a][b].getVehiculo().isTanque()){
+                            casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }else{
+                            casillas[a][b].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }
+                    }
+
+                }
+
+                if(posV==posV2){
+                    vehiculo3.setEnabled(false);
+                    if(misVehiculos[posV0].isEstado()){
+                        posV=posV0;
+                        casillas[a][b].setVehiculo(misVehiculos[posV]);
+                        if(casillas[a][b].getVehiculo().isTanque()){
+                            casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }else{
+                            casillas[a][b].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }
+                    }
+                    if(misVehiculos[posV1].isEstado()){
+                        posV=posV1;
+                        casillas[a][b].setVehiculo(misVehiculos[posV]);
+                        if(casillas[a][b].getVehiculo().isTanque()){
+                            casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }else{
+                            casillas[a][b].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        }
+                    }
+                }
+            }
+        }
     }
+
+    public void jugar(int x, int y, Casilla[][] casillas){
+
+        movimientoPC(x, y, casillas);
+    }
+
 }
