@@ -58,7 +58,7 @@ public class BtnJugar8x9 extends JButton{
         ventana.setVisible(false);
         ventanaJugar3.setVisible(true);
 
-        ventana.control.jugar(8, 9, ventana.control.Tablero3);
+        ventana.control.jugar(8, 9, ventana.control.Tablero3, ventanaJugar3);
 
     }
 
