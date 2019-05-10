@@ -6,12 +6,16 @@ public class Jugador{
     private int oro;
     private int experiencia;
     private int nivel;
+    private int partidasGanadas;
+    private int partidasPerdidas;
 
     public Jugador() {
         this.nombre = "";
         this.oro = 0;
         this.experiencia = 0;
         this.nivel = 1;
+        this.partidasGanadas = 0;
+        this.partidasPerdidas = 0;
     }
 
     public String getNombre() {
@@ -46,4 +50,19 @@ public class Jugador{
         return nivel;
     }
 
+    public int getPartidasGanadas() {
+        return partidasGanadas;
+    }
+
+    public int getPartidasPerdidas() {
+        return partidasPerdidas;
+    }
+
+    public void setPartidasGanadas(int partidasGanadas) {
+        this.partidasGanadas = partidasGanadas;
+    }
+
+    public void setPartidasPerdidas(int partidasPerdidas) {
+        this.partidasPerdidas = partidasPerdidas;
+    }
 }

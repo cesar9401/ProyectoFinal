@@ -8,8 +8,8 @@ import java.awt.event.*;
 public class Ventana extends JFrame{
 
     protected JPanel panelMenu, panelInformacion;
-    private JLabel player, nombreJugador, oro, oroJugador, nivel, nivelJugador;
-    private JLabel experiencia, experienciaJugador, informacionVehiculos;
+    protected JLabel player, nombreJugador, oro, oroJugador, nivel, nivelJugador;
+    protected JLabel experiencia, experienciaJugador, informacionVehiculos;
     private JPanel bienvenida;
     private JButton confirmar, comenzar;
     private JLabel vehiculo1, vehiculo2, vehiculo3;

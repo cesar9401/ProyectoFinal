@@ -59,7 +59,7 @@ public class BtnJugar6x4 extends JButton{
         ventana.setVisible(false);
         ventanaJugar2.setVisible(true);
 
-        ventana.control.jugar(6, 4, ventana.control.Tablero2, ventanaJugar2);
+        ventana.control.jugar(6, 4, tablero6x4, ventana.control.Tablero2, ventanaJugar2);
     }
 
 }
