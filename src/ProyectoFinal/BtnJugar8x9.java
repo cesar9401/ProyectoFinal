@@ -60,6 +60,5 @@ public class BtnJugar8x9 extends JButton{
 
         ventana.control.jugar(8, 9, tablero8x9, ventana.control.Tablero3, ventanaJugar3);
     }
-
 }
 

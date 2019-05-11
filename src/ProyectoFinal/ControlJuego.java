@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
 public class ControlJuego{
 
     Ventana ventana;
@@ -48,7 +49,7 @@ public class ControlJuego{
     protected int posV1=1;
     protected int posV2=2;
     protected int posV = posV0;
-    private int contadorVehiculos = 0;
+    protected int contadorVehiculos = 0;
     protected int X;
     protected int Y;
     protected boolean miTurno;
@@ -293,18 +294,17 @@ public class ControlJuego{
                     }else{
                         casillas[X][Y].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                     }
-
-                    miTurno = false;
-                    jugar(x, y, tablero, casillas, ventanaJugar);
                 }
             }
         };
+
         vehiculo1.addActionListener(oyenteV1);
 
         ActionListener oyenteV2 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(posV!=posV1){
+
                     casillas[X][Y].setVehiculo(null);
                     posV = posV1;
                     casillas[X][Y].setVehiculo(misVehiculos[posV]);
@@ -324,6 +324,7 @@ public class ControlJuego{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(posV!=posV2){
+
                     casillas[X][Y].setVehiculo(null);
                     posV = posV2;
                     casillas[X][Y].setVehiculo(misVehiculos[posV]);
@@ -350,6 +351,8 @@ public class ControlJuego{
         ActionListener oyenteRedirse = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ventana.jugador.setPartidasPerdidas(ventana.jugador.getPartidasPerdidas() + 1);
+                ventana.jugador.setExperiencia(ventana.jugador.getExperiencia() + 5);
                 eventoRendirse(x, y, tablero, ventanaJugar, casillas);
             }
         };
@@ -434,6 +437,7 @@ public class ControlJuego{
             }else{
                 informacionArea.setText("Disparo fuera de rango");
             }
+
             miTurno = false;
             jugar(x, y, tablero, casillas, ventanaJugar);
         }
@@ -513,6 +517,7 @@ public class ControlJuego{
         }
 
         if(l>0){
+
             int k;
             int contador = -1;
             k = (int)(Math.random()*l);
@@ -640,7 +645,6 @@ public class ControlJuego{
                             }
                             vehiculo3.setSelected(true);
                         }
-
                     }
 
                     if(v2){
@@ -668,6 +672,7 @@ public class ControlJuego{
                     }
                 }
             }
+
             informar.setVisible(true);
         }
 
@@ -678,7 +683,7 @@ public class ControlJuego{
         int miVida = 0;
         int vidaEnemigos = 0;
 
-        miVida = misVehiculos[posV0].getPuntosVida() + misVehiculos[posV1].getPuntosVida() + misVehiculos[posV2].getPuntosVida();
+
         for(int i=0; i<x; i++){
             for(int j=0; j<y; j++){
                 if(!casillas[i][j].isEmpty() && casillas[i][j].getVehiculo().getNombre().endsWith("Enemigo")){
@@ -719,10 +724,16 @@ public class ControlJuego{
         pGanada.setLocationRelativeTo(null);
         pGanada.setLayout(null);
         JTextArea info = new JTextArea();
+        info.setEditable(false);
         info.setBounds(20, 20, 560, 100);
-        ventana.jugador.setExperiencia(ventana.jugador.getExperiencia() + 100);
+        ventana.jugador.setExperiencia(ventana.jugador.getExperiencia() + 125);
         ventana.jugador.setOro(ventana.jugador.getOro() + 125);
         ventana.jugador.setPartidasGanadas(ventana.jugador.getPartidasGanadas() + 1);
+
+        misVehiculos[posV0].setExperiencia(125);
+        misVehiculos[posV1].setExperiencia(125);
+        misVehiculos[posV2].setExperiencia(125);
+
         info.setText("Felicidades, partida ganada");
         info.append("\nRecibes $125 de oro y 100 de xp");
         info.append("\nPartidas ganadas: "+ventana.jugador.getPartidasGanadas()+" Partidas perdidas: "+ventana.jugador.getPartidasPerdidas());
@@ -735,6 +746,7 @@ public class ControlJuego{
         JButton aceptar = new JButton("Aceptar");
         aceptar.setBounds(250, 150, 100, 30);
         pGanada.add(aceptar);
+
         pGanada.setVisible(true);
 
         ActionListener oyenteAceptar = new ActionListener() {
@@ -753,11 +765,17 @@ public class ControlJuego{
         pPerdida.setLocationRelativeTo(null);
         pPerdida.setLayout(null);
         JTextArea info = new JTextArea();
+        info.setEditable(false);
         info.setBounds(20, 20, 560, 100);
         ventana.jugador.setExperiencia(ventana.jugador.getExperiencia() + 25);
         ventana.jugador.setPartidasPerdidas(ventana.jugador.getPartidasPerdidas() + 1);
-        info.setText("Felicidades, partida ganada");
-        info.append("\nRecibes $125 de oro y 100 de xp");
+
+        misVehiculos[posV0].setExperiencia(25);
+        misVehiculos[posV1].setExperiencia(25);
+        misVehiculos[posV2].setExperiencia(25);
+
+        info.setText("Sera para la proxima, partida perdida");
+        info.append("\nRecibes $20 de oro y 20 de xp");
         info.append("\nPartidas ganadas: "+ventana.jugador.getPartidasGanadas()+" Partidas perdidas: "+ventana.jugador.getPartidasPerdidas());
         pPerdida.add(info);
 
@@ -791,7 +809,91 @@ public class ControlJuego{
         ventanaJugar.remove(vsPC);
         ventanaJugar.setVisible(false);
         ventana.panelInformacion.removeAll();
+
+        establecerNivel(ventanaJugar);
         ventana.inicializarLabels();
-        ventana.setVisible(true);
+        //ventana.setVisible(true);
+
+    }
+
+    public void establecerNivel(JFrame ventanaJugar){
+        int xp = ventana.jugador.getExperiencia();
+
+        if(xp>0 && xp<=100){
+            ventana.jugador.setNivel(1);
+        }
+        if(xp>100 && xp<=250){
+            ventana.jugador.setNivel(2);
+        }
+        if(xp>250 && xp<=500){
+            ventana.jugador.setNivel(3);
+        }
+        if(xp>500 && xp<=800){
+            ventana.jugador.setNivel(4);
+        }
+        if(xp>800 && xp<=1200){
+            ventana.jugador.setNivel(5);
+        }
+        if(xp>1200){
+            ventana.jugador.setNivel(6);
+        }
+
+        for(int i=0; i<contadorVehiculos; i++){
+            if(misVehiculos[i].getExperiencia()>0 && misVehiculos[i].getExperiencia()<=100){
+                misVehiculos[i].setExperiencia(1);
+            }
+
+            if(misVehiculos[i].getExperiencia()>100 && misVehiculos[i].getExperiencia()<=250){
+                misVehiculos[i].setExperiencia(2);
+            }
+
+            if(misVehiculos[i].getExperiencia()>250 && misVehiculos[i].getExperiencia()<=500){
+                misVehiculos[i].setExperiencia(3);
+            }
+
+            if(misVehiculos[i].getExperiencia()>500 && misVehiculos[i].getExperiencia()<=800){
+                misVehiculos[i].setExperiencia(4);
+            }
+
+            if(misVehiculos[i].getExperiencia()>800 && misVehiculos[i].getExperiencia()<=1200){
+                misVehiculos[i].setExperiencia(5);
+            }
+            if(misVehiculos[i].getExperiencia()>1200){
+                misVehiculos[i].setExperiencia(6);
+            }
+        }
+
+        JDialog informacion = new JDialog(ventanaJugar, "Informacion");
+        informacion.setSize(600, 220);
+        informacion.setLocationRelativeTo(null);
+        informacion.setLayout(null);
+        JTextArea info = new JTextArea();
+        info.setEditable(false);
+        info.setBounds(20, 20, 560, 100);
+
+        info.setText(ventana.jugador.getNombre()+" Nivel: "+ventana.jugador.getNivel()+" Oro: "+ventana.jugador.getOro());
+        info.append("\nVehiculos en partida:");
+        info.append("\n"+misVehiculos[posV0].getNombre()+" Nivel: "+misVehiculos[posV0].getNivel()+" Vehiculos destruidos: "+misVehiculos[posV0].getEnemigosDestruidos());
+        info.append(" Activo: "+misVehiculos[posV0].isEstado());
+        info.append("\n"+misVehiculos[posV1].getNombre()+" Nivel: "+misVehiculos[posV1].getNivel()+" Vehiculos destruidos: "+misVehiculos[posV1].getEnemigosDestruidos());
+        info.append(" Activo: "+misVehiculos[posV1].isEstado());
+        info.append("\n"+misVehiculos[posV2].getNombre()+" Nivel: "+misVehiculos[posV1].getNivel()+" Vehiculos destruidos: "+misVehiculos[posV2].getEnemigosDestruidos());
+        info.append(" Activo: "+misVehiculos[posV2].isEstado());
+        informacion.add(info);
+
+        JButton aceptar = new JButton("Aceptar");
+        aceptar.setBounds(250, 150, 100, 30);
+        informacion.add(aceptar);
+        informacion.setVisible(true);
+
+        ActionListener oyenteAceptar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                informacion.setVisible(false);
+                ventana.setVisible(true);
+            }
+        };
+        aceptar.addActionListener(oyenteAceptar);
+
     }
 }

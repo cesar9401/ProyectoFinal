@@ -24,8 +24,7 @@ public class Vehiculos{
         this.enemigosDestruidos = 0;
         this.cantDestruido = 0;
         this.tanque = false;
-
-        this.ataque = ataque;
+        this.ataque = 0;
     }
 
     public int getNivel() {

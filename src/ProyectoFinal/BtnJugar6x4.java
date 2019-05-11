@@ -61,5 +61,4 @@ public class BtnJugar6x4 extends JButton{
 
         ventana.control.jugar(6, 4, tablero6x4, ventana.control.Tablero2, ventanaJugar2);
     }
-
 }
