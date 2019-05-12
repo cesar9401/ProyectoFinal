@@ -11,7 +11,7 @@ public class Jugador{
 
     public Jugador() {
         this.nombre = "";
-        this.oro = 0;
+        this.oro = 1000;
         this.experiencia = 0;
         this.nivel = 1;
         this.partidasGanadas = 0;

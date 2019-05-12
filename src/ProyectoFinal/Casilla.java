@@ -1,8 +1,6 @@
 package ProyectoFinal;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class Casilla extends JButton{
 
@@ -12,7 +10,6 @@ public class Casilla extends JButton{
     private boolean agua;
     protected int posX;
     protected int posY;
-    Casilla[][] tablero;
 
     ImageIcon tierra = new ImageIcon("tierra.jpg");
     ImageIcon tanque = new ImageIcon("tanque.jpg");
@@ -21,14 +18,13 @@ public class Casilla extends JButton{
     Ventana ventana;
 
 
-    public Casilla(int posX, int posY, Casilla[][] tablero){
+    public Casilla(int posX, int posY){
         vehiculo = null;
         montaña = false;
         agua = false;
         vida = 0;
         this.posX = posX;
         this.posY = posY;
-        this.tablero = tablero;
 
         /*ActionListener oyenteCasilla = new ActionListener() {
             @Override

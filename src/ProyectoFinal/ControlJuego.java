@@ -45,10 +45,14 @@ public class ControlJuego{
     protected int rdm;
     protected int rdmX;
     protected int rdmY;
-    protected int posV0=0;
+    /*protected int posV0=0;
     protected int posV1=1;
     protected int posV2=2;
-    protected int posV = posV0;
+    */
+
+    protected int[] pos = {0, 1, 2};
+    protected int posV = pos [0];
+
     protected int contadorVehiculos = 0;
     protected int X;
     protected int Y;
@@ -88,7 +92,7 @@ public class ControlJuego{
 
         for(int i=0; i<x; i++){
             for(int j=0; j<y; j++){
-                Casilla casilla = new Casilla(j, i, tablero);
+                Casilla casilla = new Casilla(j, i);
 
                 /*ActionListener oyenteCasilla = new ActionListener() {
                     @Override
@@ -185,7 +189,7 @@ public class ControlJuego{
             rdmY = (int)(Math.random()*y);
             if(!tablero[rdmX][rdmY].isMontaña() && !tablero[rdmX][rdmY].isAgua() && tablero[rdmX][rdmY].isEmpty() && contador==0){
                 //rdm = (int)(Math.random()*3);
-                posV = posV0;
+                posV = pos[0];
                 tablero[rdmX][rdmY].setVehiculo(misVehiculos[posV]);
                 X = rdmX;
                 Y = rdmY;
@@ -266,13 +270,13 @@ public class ControlJuego{
         cambiarV.setBounds(5, 300, 115, 30);
         vsPC.add(cambiarV);
 
-        vehiculo1 = new JRadioButton(misVehiculos[0].getNombre(), true);
+        vehiculo1 = new JRadioButton(misVehiculos[pos[0]].getNombre(), true);
         vehiculo1.setBounds(10, 340, 100, 30);
         vsPC.add(vehiculo1);
-        vehiculo2 = new JRadioButton(misVehiculos[1].getNombre(), false);
+        vehiculo2 = new JRadioButton(misVehiculos[pos[1]].getNombre(), false);
         vehiculo2.setBounds(10, 380, 100, 30);
         vsPC.add(vehiculo2);
-        vehiculo3 = new JRadioButton(misVehiculos[2].getNombre(), false);
+        vehiculo3 = new JRadioButton(misVehiculos[pos[2]].getNombre(), false);
         vehiculo3.setBounds(10, 420, 100, 30);
         vsPC.add(vehiculo3);
 
@@ -285,15 +289,17 @@ public class ControlJuego{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                if(posV!=posV0){
+                if(posV!=pos[0]){
                     casillas[X][Y].setVehiculo(null);
-                    posV = posV0;
+                    posV = pos[0];
                     casillas[X][Y].setVehiculo(misVehiculos[posV]);
                     if(casillas[X][Y].getVehiculo().isTanque()){
                         casillas[X][Y].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                     }else{
                         casillas[X][Y].setIcon(new ImageIcon(avion.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
                     }
+                    miTurno = false;
+                    jugar(x, y, tablero, casillas, ventanaJugar);
                 }
             }
         };
@@ -303,10 +309,10 @@ public class ControlJuego{
         ActionListener oyenteV2 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(posV!=posV1){
+                if(posV!=pos[1]){
 
                     casillas[X][Y].setVehiculo(null);
-                    posV = posV1;
+                    posV = pos[1];
                     casillas[X][Y].setVehiculo(misVehiculos[posV]);
                     if(casillas[X][Y].getVehiculo().isTanque()){
                         casillas[X][Y].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
@@ -323,10 +329,10 @@ public class ControlJuego{
         ActionListener oyenteV3 = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(posV!=posV2){
+                if(posV!=pos[2]){
 
                     casillas[X][Y].setVehiculo(null);
-                    posV = posV2;
+                    posV = pos[2];
                     casillas[X][Y].setVehiculo(misVehiculos[posV]);
                     if(casillas[X][Y].getVehiculo().isTanque()){
                         casillas[X][Y].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[X][Y].getWidth(), casillas[X][Y].getHeight(), Image.SCALE_SMOOTH)));
@@ -589,20 +595,20 @@ public class ControlJuego{
                     boolean v1 = false;
                     boolean v2 = false;
 
-                    if(posV==posV0){
+                    if(posV==pos[0]){
                         v0 = true;
                     }
-                    if(posV==posV1){
+                    if(posV==pos[1]){
                         v1=true;
                     }
-                    if(posV==posV2){
+                    if(posV==pos[2]){
                         v2=true;
                     }
 
                     if(v0){
                         vehiculo1.setEnabled(false);
-                        if(misVehiculos[posV1].isEstado()){
-                            posV=posV1;
+                        if(misVehiculos[pos[1]].isEstado()){
+                            posV=pos[1];
                             casillas[a][b].setVehiculo(misVehiculos[posV]);
                             if(casillas[a][b].getVehiculo().isTanque()){
                                 casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
@@ -611,8 +617,8 @@ public class ControlJuego{
                             }
                             vehiculo2.setSelected(true);
                         }
-                        if(!misVehiculos[posV1].isEstado() && misVehiculos[posV2].isEstado()){
-                            posV=posV2;
+                        if(!misVehiculos[pos[1]].isEstado() && misVehiculos[pos[2]].isEstado()){
+                            posV=pos[2];
                             casillas[a][b].setVehiculo(misVehiculos[posV]);
                             if(casillas[a][b].getVehiculo().isTanque()){
                                 casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
@@ -625,8 +631,8 @@ public class ControlJuego{
 
                     if(v1){
                         vehiculo2.setEnabled(false);
-                        if(misVehiculos[posV0].isEstado()){
-                            posV=posV0;
+                        if(misVehiculos[pos[0]].isEstado()){
+                            posV=pos[0];
                             casillas[a][b].setVehiculo(misVehiculos[posV]);
                             if(casillas[a][b].getVehiculo().isTanque()){
                                 casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
@@ -635,8 +641,8 @@ public class ControlJuego{
                             }
                             vehiculo1.setSelected(true);
                         }
-                        if(!misVehiculos[posV0].isEstado() && misVehiculos[posV2].isEstado()){
-                            posV=posV2;
+                        if(!misVehiculos[pos[0]].isEstado() && misVehiculos[pos[2]].isEstado()){
+                            posV=pos[2];
                             casillas[a][b].setVehiculo(misVehiculos[posV]);
                             if(casillas[a][b].getVehiculo().isTanque()){
                                 casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
@@ -649,8 +655,8 @@ public class ControlJuego{
 
                     if(v2){
                         vehiculo3.setEnabled(false);
-                        if(misVehiculos[posV0].isEstado()){
-                            posV=posV0;
+                        if(misVehiculos[pos[0]].isEstado()){
+                            posV=pos[0];
                             casillas[a][b].setVehiculo(misVehiculos[posV]);
                             if(casillas[a][b].getVehiculo().isTanque()){
                                 casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
@@ -659,8 +665,8 @@ public class ControlJuego{
                             }
                             vehiculo1.setSelected(true);
                         }
-                        if(!misVehiculos[posV0].isEstado() && misVehiculos[posV1].isEstado()){
-                            posV=posV1;
+                        if(!misVehiculos[pos[0]].isEstado() && misVehiculos[pos[1]].isEstado()){
+                            posV=pos[1];
                             casillas[a][b].setVehiculo(misVehiculos[posV]);
                             if(casillas[a][b].getVehiculo().isTanque()){
                                 casillas[a][b].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
@@ -703,7 +709,7 @@ public class ControlJuego{
         }
 
         vidaEnemigos = 0;
-        miVida = misVehiculos[posV0].getPuntosVida() + misVehiculos[posV1].getPuntosVida() + misVehiculos[posV2].getPuntosVida();
+        miVida = misVehiculos[pos[0]].getPuntosVida() + misVehiculos[pos[1]].getPuntosVida() + misVehiculos[pos[2]].getPuntosVida();
         for(int i=0; i<x; i++){
             for(int j=0; j<y; j++){
                 if(!casillas[i][j].isEmpty() && casillas[i][j].getVehiculo().getNombre().endsWith("Enemigo")){
@@ -730,9 +736,9 @@ public class ControlJuego{
         ventana.jugador.setOro(ventana.jugador.getOro() + 125);
         ventana.jugador.setPartidasGanadas(ventana.jugador.getPartidasGanadas() + 1);
 
-        misVehiculos[posV0].setExperiencia(125);
-        misVehiculos[posV1].setExperiencia(125);
-        misVehiculos[posV2].setExperiencia(125);
+        misVehiculos[pos[0]].setExperiencia(125);
+        misVehiculos[pos[1]].setExperiencia(125);
+        misVehiculos[pos[2]].setExperiencia(125);
 
         info.setText("Felicidades, partida ganada");
         info.append("\nRecibes $125 de oro y 100 de xp");
@@ -770,9 +776,9 @@ public class ControlJuego{
         ventana.jugador.setExperiencia(ventana.jugador.getExperiencia() + 25);
         ventana.jugador.setPartidasPerdidas(ventana.jugador.getPartidasPerdidas() + 1);
 
-        misVehiculos[posV0].setExperiencia(25);
-        misVehiculos[posV1].setExperiencia(25);
-        misVehiculos[posV2].setExperiencia(25);
+        misVehiculos[pos[0]].setExperiencia(25);
+        misVehiculos[pos[1]].setExperiencia(25);
+        misVehiculos[pos[2]].setExperiencia(25);
 
         info.setText("Sera para la proxima, partida perdida");
         info.append("\nRecibes $20 de oro y 20 de xp");
@@ -873,12 +879,12 @@ public class ControlJuego{
 
         info.setText(ventana.jugador.getNombre()+" Nivel: "+ventana.jugador.getNivel()+" Oro: "+ventana.jugador.getOro());
         info.append("\nVehiculos en partida:");
-        info.append("\n"+misVehiculos[posV0].getNombre()+" Nivel: "+misVehiculos[posV0].getNivel()+" Vehiculos destruidos: "+misVehiculos[posV0].getEnemigosDestruidos());
-        info.append(" Activo: "+misVehiculos[posV0].isEstado());
-        info.append("\n"+misVehiculos[posV1].getNombre()+" Nivel: "+misVehiculos[posV1].getNivel()+" Vehiculos destruidos: "+misVehiculos[posV1].getEnemigosDestruidos());
-        info.append(" Activo: "+misVehiculos[posV1].isEstado());
-        info.append("\n"+misVehiculos[posV2].getNombre()+" Nivel: "+misVehiculos[posV1].getNivel()+" Vehiculos destruidos: "+misVehiculos[posV2].getEnemigosDestruidos());
-        info.append(" Activo: "+misVehiculos[posV2].isEstado());
+        info.append("\n"+misVehiculos[pos[0]].getNombre()+" Nivel: "+misVehiculos[pos[0]].getNivel()+" Vehiculos destruidos: "+misVehiculos[pos[0]].getEnemigosDestruidos());
+        info.append(" Activo: "+misVehiculos[pos[0]].isEstado());
+        info.append("\n"+misVehiculos[pos[1]].getNombre()+" Nivel: "+misVehiculos[pos[1]].getNivel()+" Vehiculos destruidos: "+misVehiculos[pos[1]].getEnemigosDestruidos());
+        info.append(" Activo: "+misVehiculos[pos[1]].isEstado());
+        info.append("\n"+misVehiculos[pos[2]].getNombre()+" Nivel: "+misVehiculos[pos[1]].getNivel()+" Vehiculos destruidos: "+misVehiculos[pos[2]].getEnemigosDestruidos());
+        info.append(" Activo: "+misVehiculos[pos[2]].isEstado());
         informacion.add(info);
 
         JButton aceptar = new JButton("Aceptar");
