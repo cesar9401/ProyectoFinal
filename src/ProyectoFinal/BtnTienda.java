@@ -94,10 +94,37 @@ public class BtnTienda extends JButton{
         };
         restaurarVida.addActionListener(oyenteRestaurar);
 
+        JButton comprarBoot = new JButton("Comprar Boot $125");
+        comprarBoot.setFont(new Font("cooper black", 1, 18));
+        comprarBoot.setBounds(245, 200, 260, 50);
+        panelTienda.add(comprarBoot);
+        comprarBoot.setEnabled(true);
+        if(ventana.jugador.getOro()<125 || ventana.control.boot.isEstado()){
+            comprarBoot.setEnabled(false);
+        }
+
+        ActionListener oyenteBoot = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ventana.control.boot.setEstado(true);
+                comprarBoot.setEnabled(false);
+                ventana.jugador.setOro(ventana.jugador.getOro() - 125);
+                JOptionPane.showMessageDialog(null, "Boot adquirido, le puedes dar uso durante una partida");
+                ventanaTienda.setVisible(false);
+                ventanaTienda.remove(ventana.panelInformacion);
+                ventana.panelInformacion.removeAll();
+                ventana.inicializarLabels();
+                ventanaTienda.add(ventana.panelInformacion);
+                ventanaTienda.setVisible(true);
+            }
+        };
+        comprarBoot.addActionListener(oyenteBoot);
+
+
 
         JButton regresar = new JButton("Regresar");
         regresar.setFont(new Font("cooper black", 1, 18));
-        regresar.setBounds(310, 200, 130, 50);
+        regresar.setBounds(310, 280, 130, 50);
         panelTienda.add(regresar);
 
         ActionListener oyenteRegresar = new ActionListener() {

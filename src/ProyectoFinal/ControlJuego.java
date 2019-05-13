@@ -16,6 +16,7 @@ public class ControlJuego{
     TanqueEnemigo[] tanqueEnemigos = new TanqueEnemigo[3];
     AvionEnemigo[] avionEnemigos = new AvionEnemigo[3];
     Vehiculos[] misVehiculos = new Vehiculos[30];
+    Boot boot = new Boot();
     Casilla[][] Tablero1 = new Casilla[4][4];
     Casilla[][] Tablero2 = new Casilla[6][4];
     Casilla[][] Tablero3 = new Casilla[8][9];
@@ -39,6 +40,7 @@ public class ControlJuego{
     ImageIcon avion = new ImageIcon("halconMilenario.jpg");
     ImageIcon tanqueEnemigo = new ImageIcon("tanqueEnemigo.JPG");
     ImageIcon avionEnemigo = new ImageIcon("avionEnemigo.jpg");
+    ImageIcon newboot = new ImageIcon("boot.jpg");
 
     protected int rdm;
     protected int rdmX;
@@ -52,8 +54,8 @@ public class ControlJuego{
     protected int posV = pos [0];
 
     protected int contadorVehiculos = 0;
-    protected int X;
-    protected int Y;
+    protected int X, Xboot;
+    protected int Y, Yboot;
     protected boolean miTurno;
 
     public ControlJuego(Ventana ventana){
@@ -85,6 +87,7 @@ public class ControlJuego{
             contadorVehiculos++;
         }
     }
+
 
     public void getTablero(int x, int y,int ancho, int largo, int obstaculos, Casilla[][] tablero){
 
@@ -138,6 +141,10 @@ public class ControlJuego{
                         if(!casilla.isEmpty()){
                             informacionArea.append("\nNombre vehiculo: "+casilla.getVehiculo().getNombre());
                             informacionArea.append("\nPuntos de vida: "+casilla.getVehiculo().getPuntosVida());
+                        }
+
+                        if(!casilla.isBootEmpty()){
+                            informacionArea.append("\nBoot, turno: "+boot.getTurnos());
                         }
 
                         if(casilla.isMontaña()){
@@ -263,8 +270,24 @@ public class ControlJuego{
         vsPlayer.setBounds(0, 0, 125, 680);
         ventanaJugar.add(vsPlayer);
 
+        JButton colocarBoot = new JButton(" Set Boot");
+        colocarBoot.setBounds(10, 460, 105, 30);
+        vsPC.add(colocarBoot);
+        if(!boot.isEstado()){
+            colocarBoot.setEnabled(false);
+        }
+
+        ActionListener oyenteBoot = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eventoBoot(x, y, tablero, casillas, ventanaJugar);
+                colocarBoot.setEnabled(false);
+            }
+        };
+        colocarBoot.addActionListener(oyenteBoot);
+
         JButton rendirse = new JButton("Rendirse");
-        rendirse.setBounds(10, 460, 105, 30);
+        rendirse.setBounds(10, 500, 105, 30);
         posX.setBounds(60, 140, 40, 30);
         movX.setBounds(10, 140, 50, 30);
         posY.setBounds(60, 180, 40, 30);
@@ -279,9 +302,6 @@ public class ControlJuego{
         cambiarV.setBounds(5, 300, 115, 30);
         vsPC.add(cambiarV);
 
-        JRadioButton vehiculo1;
-        JRadioButton vehiculo2;
-        JRadioButton vehiculo3;
 
         vehiculo1 = new JRadioButton(misVehiculos[pos[0]].getNombre(), true);
         vehiculo1.setBounds(10, 340, 100, 30);
@@ -422,6 +442,49 @@ public class ControlJuego{
         }
     }
 
+    public void eventoBoot(int x, int y, JPanel tablero, Casilla[][] casillas, JFrame ventanaJugar){
+
+        if(!posX.getText().equals("") && !posY.getText().equals("")){
+            int fila = Integer.parseInt(posY.getText());
+            int columna = Integer.parseInt(posX.getText());
+
+            posY.setText("");
+            posY.requestFocusInWindow();
+            posX.setText("");
+            posX.requestFocusInWindow();
+
+            if(MovimientoValido0(fila, columna, x, y)){
+                if(fila==X || columna ==Y){
+                    if(!casillas[fila][columna].isMontaña() && !casillas[fila][columna].isAgua() && casillas[fila][columna].isEmpty() && casillas[fila][columna].isBootEmpty()){
+
+
+                        casillas[fila][columna].setTmp(boot);
+                        Xboot = fila;
+                        Yboot = columna;
+                        casillas[fila][columna].setIcon(new ImageIcon(newboot.getImage().getScaledInstance(casillas[fila][columna].getWidth(), casillas[fila][columna].getHeight(), Image.SCALE_SMOOTH)));
+
+                    }else{
+                        informacionArea.setText("El movimiento no es posible porque la casilla esta ocupada");
+                    }
+
+                }else{
+                    informacionArea.setText("No corresponde al movimiento de una torre");
+                }
+            }else{
+                informacionArea.setText("Movimiento fuera de rango");
+            }
+
+            try{
+                Thread.sleep(1500);
+            }
+            catch(InterruptedException ex){
+                Thread.currentThread().interrupt();
+            }
+            miTurno = false;
+            jugar(x, y, tablero, casillas, ventanaJugar);
+        }
+    }
+
     public void dispararEnemigos(int x, int y, JPanel tablero, Casilla[][] casillas, JFrame ventanaJugar){
         if(!posX.getText().equals("") && !posY.getText().equals("")){
             int fila = Integer.parseInt(posY.getText());
@@ -495,7 +558,7 @@ public class ControlJuego{
 
             if(MovimientoValido0(fila, columna, x, y)){
                 if(fila==X || columna ==Y){
-                    if(!casillas[fila][columna].isMontaña() && !casillas[fila][columna].isAgua() && casillas[fila][columna].isEmpty()){
+                    if(!casillas[fila][columna].isMontaña() && !casillas[fila][columna].isAgua() && casillas[fila][columna].isEmpty() && casillas[fila][columna].isBootEmpty()){
 
                         if(casillas[X][Y].getVehiculo().isTanque()){
                             casillas[fila][columna].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(casillas[fila][columna].getWidth(), casillas[fila][columna].getHeight(), Image.SCALE_SMOOTH)));
@@ -603,12 +666,28 @@ public class ControlJuego{
                 b = (int)(Math.random()*y);
             }while(rdmX!=a && rdmY!=b);
 
+            int c, d;
+            do{
+                c = (int)(Math.random()*x);
+                d = (int)(Math.random()*y);
+            }while(Xboot!=c && Yboot!=d);
+
+            if(boot.getTurnos()==6 && boot.isEstado()){
+                boot.setEstado(false);
+                boot.setTurnos(0);
+                casillas[Xboot][Yboot].setTmp(null);
+                casillas[Xboot][Yboot].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[Xboot][Yboot].getWidth(), casillas[Xboot][Yboot].getHeight(), Image.SCALE_SMOOTH)));
+            }
+
+
             informacionArea2.setText("El vehiculo: "+casillas[rdmX][rdmY].getVehiculo().getNombre()+" con posicion PosX: "+rdmY+" PosY: "+rdmX);
             informacionArea2.append(", disparo a la casilla x="+b+" y="+a);
+
 
             if(casillas[a][b].isEmpty() && !(casillas[a][b].isAgua() || casillas[a][b].isMontaña())){
                 informacionArea2.append("\nCasilla vacia.");
             }
+
 
             if(casillas[a][b].isAgua()){
                 casillas[a][b].setVida(casillas[a][b].getVida() - casillas[rdmX][rdmY].getVehiculo().getAtaque());
@@ -732,6 +811,42 @@ public class ControlJuego{
                 }
             }
 
+            if(boot.isEstado()){
+                if(casillas[c][d].isEmpty() && !(casillas[c][d].isAgua() || casillas[c][d].isMontaña())){
+                    informacionArea2.append("\nBoot disparo a  una casilla vacia.");
+                    boot.setTurnos(boot.getTurnos() + 1);
+                }
+            }
+
+            if(boot.isEstado()){
+                if(casillas[c][d].isAgua() || casillas[c][d].isMontaña()){
+                    casillas[c][d].setVida(casillas[c][d].getVida() - casillas[Xboot][Yboot].getTmp().getDañoDisparo());
+                    informacionArea2.append("\nBoot disparo donde se encuentra un obstaculo");
+                    informacionArea2.append(", vida actual del obstaculo: "+casillas[c][d].getVida());
+                    if(casillas[c][d].getVida()<=0){
+                        informacionArea2.append(", obstaculo destruido.");
+                        casillas[c][d].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[a][b].getWidth(), casillas[a][b].getHeight(), Image.SCALE_SMOOTH)));
+                        casillas[c][d].setAgua(false);
+                        casillas[c][d].setMontaña(false);
+                    }
+                    boot.setTurnos(boot.getTurnos() + 1);
+                }
+            }
+
+            if(boot.isEstado()){
+                if(!casillas[c][d].isEmpty() && casillas[c][d].getVehiculo().getNombre().endsWith("Enemigo")){
+                    casillas[c][d].getVehiculo().setPuntosVida(casillas[c][d].getVehiculo().getPuntosVida() - boot.getDañoDisparo());
+                    informacionArea2.append("\nBoot disparo donde se encuentra el vehiculo: "+casillas[c][d].getVehiculo().getNombre());
+                    informacionArea2.append(" puntos de Vida: "+casillas[c][d].getVehiculo().getPuntosVida());
+                    if(casillas[c][d].getVehiculo().getPuntosVida() <= 0){
+                        informacionArea2.append(", vehiculo destruido.");
+                        casillas[c][d].setVehiculo(null);
+                        casillas[c][d].setIcon(new ImageIcon(asfalto.getImage().getScaledInstance(casillas[c][d].getWidth(), casillas[c][d].getHeight(), Image.SCALE_SMOOTH)));
+                    }
+                    boot.setTurnos(boot.getTurnos() + 1);
+                }
+            }
+
 
             informar.setVisible(true);
         }
@@ -797,6 +912,7 @@ public class ControlJuego{
         misVehiculos[pos[0]].setPartidasGanadas(misVehiculos[pos[0]].getPartidasGanadas() + 1);
         misVehiculos[pos[1]].setPartidasGanadas(misVehiculos[pos[1]].getPartidasGanadas() + 1);
         misVehiculos[pos[2]].setPartidasGanadas(misVehiculos[pos[2]].getPartidasGanadas() + 1);
+        boot.setEstado(false);
 
 
         info.setText("Felicidades, partida ganada");
@@ -843,6 +959,7 @@ public class ControlJuego{
         misVehiculos[pos[0]].setPartidasPerdidas(misVehiculos[pos[0]].getPartidasPerdidas() + 1);
         misVehiculos[pos[1]].setPartidasPerdidas(misVehiculos[pos[1]].getPartidasPerdidas() + 1);
         misVehiculos[pos[2]].setPartidasPerdidas(misVehiculos[pos[2]].getPartidasPerdidas() + 1);
+        boot.setEstado(false);
 
         info.setText("Sera para la proxima, partida perdida");
         info.append("\nRecibes $20 de oro y 20 de xp");

@@ -5,21 +5,19 @@ import javax.swing.*;
 public class Casilla extends JButton{
 
     private Vehiculos vehiculo;
+    private Boot tmp;
     private int vida;
     private boolean montaña;
     private boolean agua;
     protected int posX;
     protected int posY;
 
-    ImageIcon tierra = new ImageIcon("tierra.jpg");
-    ImageIcon tanque = new ImageIcon("tanque.jpg");
-    ImageIcon avion = new ImageIcon("avion.gif");
-    ImageIcon aguaIcon = new ImageIcon("agua.jpg");
     Ventana ventana;
 
 
     public Casilla(int posX, int posY){
         vehiculo = null;
+        tmp = null;
         montaña = false;
         agua = false;
         vida = 0;
@@ -42,6 +40,14 @@ public class Casilla extends JButton{
         this.addActionListener(oyenteCasilla);
         */
 
+    }
+
+    public boolean isBootEmpty(){
+        if(tmp == null){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public boolean isEmpty()
@@ -97,5 +103,13 @@ public class Casilla extends JButton{
 
     public void setPosY(int posY) {
         this.posY = posY;
+    }
+
+    public Boot getTmp() {
+        return tmp;
+    }
+
+    public void setTmp(Boot tmp) {
+        this.tmp = tmp;
     }
 }
