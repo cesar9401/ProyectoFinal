@@ -14,6 +14,13 @@ public class Tanque extends Vehiculos{
     }
 
     @Override
+    public void establecerAtributos(){
+        ataque = 22 + 3*getNivel();
+        defensa = 5+ 2*getNivel();
+        punteria = 74 + getNivel();
+    }
+
+    @Override
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }

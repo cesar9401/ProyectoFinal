@@ -1,6 +1,8 @@
 package ProyectoFinal;
 
-public class Vehiculos{
+import java.io.Serializable;
+
+public class Vehiculos implements Serializable{
 
     protected String nombre;
     private int nivel;
@@ -12,6 +14,8 @@ public class Vehiculos{
     private int cantDestruido;
     protected boolean tanque;
     protected int ataque;
+    private int partidasGanadas;
+    private int partidasPerdidas;
 
 
     public Vehiculos(){
@@ -25,6 +29,12 @@ public class Vehiculos{
         this.cantDestruido = 0;
         this.tanque = false;
         this.ataque = 0;
+        this.partidasGanadas = 0;
+        this.partidasPerdidas = 0;
+    }
+
+    public void establecerAtributos(){
+        ataque = getNivel();
     }
 
     public int getNivel() {
@@ -106,4 +116,21 @@ public class Vehiculos{
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }
+
+    public void setPartidasGanadas(int partidasGanadas) {
+        this.partidasGanadas = partidasGanadas;
+    }
+
+    public int getPartidasGanadas() {
+        return partidasGanadas;
+    }
+
+    public void setPartidasPerdidas(int partidasPerdidas) {
+        this.partidasPerdidas = partidasPerdidas;
+    }
+
+    public int getPartidasPerdidas() {
+        return partidasPerdidas;
+    }
+
 }

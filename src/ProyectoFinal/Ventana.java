@@ -317,13 +317,13 @@ public class Ventana extends JFrame{
 
     public void inicializarLabels(){
         player = new JLabel("Player: ");
-        nombreJugador = new JLabel(""+jugador.getNombre());
+        nombreJugador = new JLabel(jugador.getNombre());
         oro = new JLabel("      Oro: ");
-        oroJugador = new JLabel(""+jugador.getOro());
+        oroJugador = new JLabel(Integer.toString(jugador.getOro()));
         nivel = new JLabel("      Nivel: ");
-        nivelJugador = new JLabel(""+jugador.getNivel());
+        nivelJugador = new JLabel(Integer.toString(jugador.getNivel()));
         experiencia = new JLabel("            Experiencia: ");
-        experienciaJugador = new JLabel(""+jugador.getExperiencia());
+        experienciaJugador = new JLabel(Integer.toString(jugador.getExperiencia()));
 
 
 

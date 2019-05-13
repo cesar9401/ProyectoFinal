@@ -5,10 +5,14 @@ import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class BtnTienda extends JButton{
     Ventana ventana;
     protected String seleccion;
+    ImageIcon tanque = new ImageIcon("tanque.jpg");
+    ImageIcon avion = new ImageIcon("halconMilenario.jpg");
 
     public BtnTienda(JPanel panelMenu, Ventana ventana){
         this.setText("Tienda");
@@ -73,6 +77,24 @@ public class BtnTienda extends JButton{
         comprarVehiculo.addActionListener(oyenteComprar);
 
 
+        JButton restaurarVida = new JButton("Restaurar Vida $100");
+        restaurarVida.setFont(new Font("cooper black", 1, 16));
+        restaurarVida.setBounds(240, 120, 270, 50);
+        panelTienda.add(restaurarVida);
+        restaurarVida.setEnabled(true);
+        if(ventana.jugador.getOro()<100){
+            restaurarVida.setEnabled(false);
+        }
+
+        ActionListener oyenteRestaurar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                eventoRestaurar(ventanaTienda);
+            }
+        };
+        restaurarVida.addActionListener(oyenteRestaurar);
+
+
         JButton regresar = new JButton("Regresar");
         regresar.setFont(new Font("cooper black", 1, 18));
         regresar.setBounds(310, 200, 130, 50);
@@ -90,6 +112,8 @@ public class BtnTienda extends JButton{
             }
         };
         regresar.addActionListener(oyenteRegresar);
+
+
     }
 
     public void eventoComprar(JFrame ventanaTienda){
@@ -179,5 +203,136 @@ public class BtnTienda extends JButton{
 
 
         comprar.setVisible(true);
+    }
+
+    public void eventoRestaurar(JFrame eventoRestaurar){
+        Casilla[][] casillasVehiculos = new Casilla[5][6];
+        JDialog seleccionarVehiculos = new JDialog(eventoRestaurar, "Dark Side - Vehicles");
+        seleccionarVehiculos.setSize(600, 600);
+        seleccionarVehiculos.setLayout(null);
+        seleccionarVehiculos.setLocationRelativeTo(null);
+
+        JPanel panelInfo = new JPanel();
+        panelInfo.setBounds(0, 0, 600, 80);
+        panelInfo.setBackground(Color.LIGHT_GRAY);
+        seleccionarVehiculos.add(panelInfo);
+
+        JTextArea infoV = new JTextArea();
+        infoV.setBounds(10, 10, 580, 60);
+        infoV.setEditable(false);
+        infoV.setBackground(Color.LIGHT_GRAY);
+        panelInfo.add(infoV);
+
+        JPanel mostrarVehiculos = new JPanel();
+        mostrarVehiculos.setBounds(0, 80, 600, 400);
+        mostrarVehiculos.setBackground(Color.LIGHT_GRAY);
+        mostrarVehiculos.setLayout(new GridLayout(5, 6));
+
+        JPanel vehiculosJugar = new JPanel();
+        vehiculosJugar.setBounds(0, 480, 600, 120);
+        vehiculosJugar.setBackground(Color.LIGHT_GRAY);
+        vehiculosJugar.setLayout(null);
+        seleccionarVehiculos.add(vehiculosJugar);
+
+        JButton aceptar = new JButton("ACEPTAR");
+        aceptar.setFont(new Font("cooper black", 1, 14));
+        aceptar.setBounds(230, 20, 140, 40);
+        vehiculosJugar.add(aceptar);
+
+        ActionListener oyenteAceptar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                seleccionarVehiculos.setVisible(false);
+                seleccionarVehiculos.removeAll();
+            }
+        };
+        aceptar.addActionListener(oyenteAceptar);
+
+
+        int k=0;
+        for(int i=0; i<5; i++){
+            for(int j=0; j<6; j++){
+                Casilla casilla = new Casilla(j, i);
+
+                MouseListener oyenteBtn = new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        if(!casilla.isEmpty()){
+
+                            int pos = (casilla.getPosY()+1)*(casilla.getPosX()+1) + 5*casilla.getPosY();
+                            pos--;
+                            ventana.control.misVehiculos[pos].setPuntosVida(50);
+                            ventana.jugador.setOro(ventana.jugador.getOro() - 100);
+                            if(!ventana.control.misVehiculos[pos].isEstado()){
+                                ventana.control.misVehiculos[pos].setEstado(true);
+                            }
+
+
+                            JOptionPane.showMessageDialog(null, "El vehiculo: "+casilla.getVehiculo().getNombre()+" ha sido restaurado");
+
+
+                            //ventana.control.pos[contador] = pos
+                        }
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        if(!casilla.isEmpty()){
+                            infoV.setText("Nombre Vehiculo: "+casilla.getVehiculo().getNombre());
+                            infoV.append(" Nivel: "+casilla.getVehiculo().getNivel());
+                            infoV.append("\nAtaque: "+casilla.getVehiculo().getAtaque()+" Puntos de vida: "+casilla.getVehiculo().getPuntosVida());
+                            infoV.append(" Estado: "+casilla.getVehiculo().isEstado()+"\nEnemimgos Destruidos: "+casilla.getVehiculo().getEnemigosDestruidos());
+                            infoV.append(" Veces que ha sido destruido: "+casilla.getVehiculo().getCantDestruido());
+
+                        }
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        infoV.setText("");
+                    }
+                };
+                casilla.addMouseListener(oyenteBtn);
+
+                casillasVehiculos[i][j] = casilla;
+
+                if(k<=ventana.control.contadorVehiculos){
+                    casillasVehiculos[i][j].setVehiculo(ventana.control.misVehiculos[k]);
+                    k++;
+                }
+
+                if(!casillasVehiculos[i][j].isEmpty()){
+                    if(casillasVehiculos[i][j].getVehiculo().isTanque()){
+                        casillasVehiculos[i][j].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH)));
+                    }else{
+                        casillasVehiculos[i][j].setIcon(new ImageIcon(avion.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH)));
+                    }
+
+                    if(casillasVehiculos[i][j].getVehiculo().getPuntosVida() == 50){
+                        casillasVehiculos[i][j].setEnabled(false);
+                    }
+                }
+
+                if(casillasVehiculos[i][j].isEmpty()){
+                    casillasVehiculos[i][j].setEnabled(false);
+                }
+
+                mostrarVehiculos.add(casillasVehiculos[i][j]);
+            }
+        }
+
+        seleccionarVehiculos.add(mostrarVehiculos);
+        seleccionarVehiculos.setVisible(true);
     }
 }

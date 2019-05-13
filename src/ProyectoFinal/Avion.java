@@ -16,6 +16,13 @@ public class Avion extends Vehiculos{
     }
 
     @Override
+    public void establecerAtributos(){
+        ataque = 19 + 3*getNivel();
+        defensa = 1+ 2*getNivel();
+        punteria = 79 + getNivel();
+    }
+
+    @Override
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }

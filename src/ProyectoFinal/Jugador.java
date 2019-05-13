@@ -1,13 +1,15 @@
 package ProyectoFinal;
 
-public class Jugador{
+import java.io.Serializable;
+
+public class Jugador implements Serializable{
 
     private String nombre;
     private int oro;
     private int experiencia;
     private int nivel;
     private int partidasGanadas;
-    private int partidasPerdidas;
+    protected int partidasPerdidas;
 
     public Jugador() {
         this.nombre = "";
@@ -54,7 +56,7 @@ public class Jugador{
         return partidasGanadas;
     }
 
-    public int getPartidasPerdidas() {
+    public int getPartidas_Perdidas() {
         return partidasPerdidas;
     }
 
@@ -62,7 +64,7 @@ public class Jugador{
         this.partidasGanadas = partidasGanadas;
     }
 
-    public void setPartidasPerdidas(int partidasPerdidas) {
+    public void setPartidas_Perdidas(int partidasPerdidas) {
         this.partidasPerdidas = partidasPerdidas;
     }
 }

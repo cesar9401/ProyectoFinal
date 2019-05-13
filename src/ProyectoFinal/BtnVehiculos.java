@@ -13,6 +13,8 @@ public class BtnVehiculos extends JButton{
     Casilla[][] casillasVehiculos = new Casilla[5][6];
     ImageIcon tanque = new ImageIcon("tanque.jpg");
     ImageIcon avion = new ImageIcon("halconMilenario.jpg");
+    ImageIcon tanqueEnemigo = new ImageIcon("tanqueEnemigo.JPG");
+    ImageIcon avionEnemigo = new ImageIcon("avionEnemigo.jpg");
     int contador;
 
     public BtnVehiculos(JPanel panelMenu, Ventana ventana){
@@ -83,7 +85,7 @@ public class BtnVehiculos extends JButton{
         ActionListener oyenteVerEnemigos = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                eventoVerEnemigos(ventanaVehiculos);
             }
         };
         verEnemigos.addActionListener(oyenteVerEnemigos);
@@ -119,6 +121,125 @@ public class BtnVehiculos extends JButton{
             }
         };
         regresar.addActionListener(oyenteRegresar);
+    }
+
+    public void eventoVerEnemigos(JFrame ventanaVehiculos){
+
+        Casilla[][] VehiculosEnemigos = new Casilla[2][3];
+        JDialog seleccionarVehiculos = new JDialog(ventanaVehiculos, "Dark Side - Enemy Vehicles");
+        seleccionarVehiculos.setSize(400, 400);
+        seleccionarVehiculos.setLayout(null);
+        seleccionarVehiculos.setLocationRelativeTo(null);
+
+        JPanel panelInfo = new JPanel();
+        panelInfo.setBounds(0, 0, 400, 80);
+        panelInfo.setBackground(Color.LIGHT_GRAY);
+        seleccionarVehiculos.add(panelInfo);
+
+        JTextArea infoV = new JTextArea();
+        infoV.setBounds(10, 10, 380, 60);
+        infoV.setEditable(false);
+        infoV.setBackground(Color.LIGHT_GRAY);
+        panelInfo.add(infoV);
+
+        JPanel mostrarVehiculos = new JPanel();
+        mostrarVehiculos.setBounds(0, 80, 400, 200);
+        mostrarVehiculos.setBackground(Color.LIGHT_GRAY);
+        mostrarVehiculos.setLayout(new GridLayout(2, 3));
+        seleccionarVehiculos.add(mostrarVehiculos);
+
+        JPanel vehiculosJugar = new JPanel();
+        vehiculosJugar.setBounds(0, 280, 400, 120);
+        vehiculosJugar.setBackground(Color.LIGHT_GRAY);
+        vehiculosJugar.setLayout(null);
+        seleccionarVehiculos.add(vehiculosJugar);
+
+        JButton aceptar = new JButton("ACEPTAR");
+        aceptar.setFont(new Font("cooper black", 1, 14));
+        aceptar.setBounds(130, 20, 140, 40);
+        vehiculosJugar.add(aceptar);
+
+        ActionListener oyenteAceptar = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                seleccionarVehiculos.setVisible(false);
+                seleccionarVehiculos.removeAll();
+            }
+        };
+        aceptar.addActionListener(oyenteAceptar);
+
+        int k=0, l=0;
+        for(int i=0; i<2; i++){
+            for(int j=0; j<3; j++){
+                Casilla casilla = new Casilla(j, i);
+
+                MouseListener oyenteBtn = new MouseListener() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        if(!casilla.isEmpty()){
+                            infoV.setText("Nombre Vehiculo: "+casilla.getVehiculo().getNombre());
+                            infoV.append(" Nivel: "+casilla.getVehiculo().getNivel());
+                            infoV.append("\nAtaque: "+casilla.getVehiculo().getAtaque()+" Puntos de vida: "+casilla.getVehiculo().getPuntosVida());
+                            infoV.append(" Estado: "+casilla.getVehiculo().isEstado()+"\nEnemimgos Destruidos: "+casilla.getVehiculo().getEnemigosDestruidos());
+                            infoV.append(" Veces que ha sido destruido: "+casilla.getVehiculo().getCantDestruido());
+
+                        }
+
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        infoV.setText("");
+                    }
+                };
+                casilla.addMouseListener(oyenteBtn);
+
+                VehiculosEnemigos[i][j] = casilla;
+
+                if(k<3){
+                    VehiculosEnemigos[i][j].setVehiculo(ventana.control.avionEnemigos[k]);
+                    k++;
+                }
+
+                if(l<3 && i==1){
+                    VehiculosEnemigos[i][j].setVehiculo(ventana.control.tanqueEnemigos[l]);
+                    l++;
+                }
+
+                if(!VehiculosEnemigos[i][j].isEmpty()){
+                    if(VehiculosEnemigos[i][j].getVehiculo().isTanque()){
+                        VehiculosEnemigos[i][j].setIcon(new ImageIcon(tanqueEnemigo.getImage().getScaledInstance(133, 100, Image.SCALE_SMOOTH)));
+                    }else{
+                        VehiculosEnemigos[i][j].setIcon(new ImageIcon(avionEnemigo.getImage().getScaledInstance(133, 100, Image.SCALE_SMOOTH)));
+                    }
+                }
+
+                if(VehiculosEnemigos[i][j].isEmpty()){
+                    VehiculosEnemigos[i][j].setEnabled(false);
+                }
+
+                mostrarVehiculos.add(VehiculosEnemigos[i][j]);
+            }
+        }
+
+        seleccionarVehiculos.add(mostrarVehiculos);
+        seleccionarVehiculos.setVisible(true);
+
     }
 
     public void eventoVerVehiculos(JFrame ventanaVehiculos){
@@ -334,7 +455,7 @@ public class BtnVehiculos extends JButton{
 
                         if(!casilla.isEmpty()){
                             if(contador<3){
-                                int pos = (casilla.getPosY()+1)*(casilla.getPosX()+1);
+                                int pos = (casilla.getPosY()+1)*(casilla.getPosX()+1) + 5*casilla.getPosY();
                                 pos--;
                                 ventana.control.pos[contador] = pos;
                                 casilla.setEnabled(false);
@@ -397,6 +518,10 @@ public class BtnVehiculos extends JButton{
                         casillasVehiculos[i][j].setIcon(new ImageIcon(tanque.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH)));
                     }else{
                         casillasVehiculos[i][j].setIcon(new ImageIcon(avion.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH)));
+                    }
+
+                    if(!casillasVehiculos[i][j].getVehiculo().isEstado()){
+                        casillasVehiculos[i][j].setEnabled(false);
                     }
                 }
 

@@ -46,8 +46,8 @@ public class BtnJugar8x9 extends JButton{
         bordeTablero.setTitleJustification(TitledBorder.TOP);
         tablero8x9.setBorder(bordeTablero);
 
-        ventana.control.panelsYBotonesJugar(8, 9, tablero8x9, panelVs3, ventanaJugar3, ventana.control.Tablero3);
         ventana.control.getTablero(8, 9,71, 83, 18, ventana.control.Tablero3);
+        ventana.control.panelsYBotonesJugar(8, 9, tablero8x9, panelVs3, ventanaJugar3, ventana.control.Tablero3);
         for(int i=0; i<8; i++){
             for(int j=0; j<9; j++){
                 tablero8x9.add(ventana.control.Tablero3[i][j]);
